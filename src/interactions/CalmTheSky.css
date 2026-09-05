@@ -1,0 +1,69 @@
+.calm {
+  position: relative;
+}
+
+.calm__field {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  cursor: grab;
+  touch-action: none;
+}
+.calm__field:active {
+  cursor: grabbing;
+}
+
+.calm__panel {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+  max-width: 26rem;
+  padding: var(--space-s) var(--space-m);
+  background: color-mix(in srgb, var(--bg) 74%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: background-color var(--dur-slow) var(--ease-paint);
+}
+
+.calm__prompt {
+  margin: 0;
+  max-width: none;
+  font-size: var(--step--1);
+  font-style: italic;
+  color: color-mix(in srgb, var(--text) 82%, transparent);
+}
+
+.calm__btn {
+  --btn-ink: var(--bg);
+  touch-action: none;
+  transition: transform 140ms var(--ease-paint), box-shadow var(--dur-mid) var(--ease-paint);
+}
+.calm__btn.is-holding {
+  transform: scale(0.97);
+  box-shadow: 0 0 0 12px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.calm__meter {
+  width: 100%;
+  height: 3px;
+  background: color-mix(in srgb, var(--text) 20%, transparent);
+  overflow: hidden;
+}
+
+.calm__meter-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* Once the sky has settled the meter is history, not a control. */
+.calm[data-settled='true'] .calm__meter {
+  opacity: 0.35;
+}

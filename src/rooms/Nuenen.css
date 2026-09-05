@@ -1,0 +1,98 @@
+.nuenen__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+  /* The column already carries its own vertical air; doubling it here left a
+     screenful of empty peat at the foot of the room. */
+  padding-block: var(--space-l);
+}
+
+/* Deliberately not sticky. The column is taller than the viewport, and a
+   sticky element cannot scroll its own overflow into view — pinning it here
+   left the last paragraph permanently below the fold and unreachable. The
+   painting is what stays; the writing is what moves past it. */
+.nuenen__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+  padding-block: 12vh;
+}
+
+.nuenen__prose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.nuenen__prose p {
+  font-size: var(--step-1);
+  line-height: 1.68;
+  max-width: 46ch;
+}
+
+.nuenen__aside {
+  padding-left: var(--space-m);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.nuenen__aside-label {
+  margin: 0 0 var(--space-3xs);
+  font-size: 0.72rem;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+
+.nuenen__aside-text {
+  margin: 0;
+  font-size: var(--step--1);
+  line-height: 1.6;
+  color: var(--text-dim);
+  max-width: 40ch;
+}
+
+.nuenen__art {
+  position: sticky;
+  top: 11vh;
+}
+
+.nuenen__figure {
+  margin-inline: auto;
+  position: relative;
+  /* Kept inside the viewport so the whole picture is visible while it paints. */
+  max-height: 78vh;
+  width: min(100%, calc(78vh * 4 / 5));
+  /* The canvas is a painting, so it gets a painting's proportions and a frame
+     shadow rather than sitting flush against the wall. */
+  aspect-ratio: 4 / 5;
+  background: #150f0a;
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.9),
+    0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.nuenen__canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .nuenen__inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l);
+  }
+  .nuenen__column,
+  .nuenen__art {
+    position: static;
+  }
+  .nuenen__art {
+    order: -1;
+  }
+  .nuenen__figure {
+    aspect-ratio: 5 / 4;
+  }
+  .nuenen__prose p {
+    font-size: var(--step-0);
+  }
+}

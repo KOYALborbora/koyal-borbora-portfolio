@@ -1,0 +1,93 @@
+{
+  "_edit": "Arles room, hung newest first. Titles, tools, years and links come from your Behance. The `description`, `role`, `outcome` and `note` lines are MY DRAFTS from the project titles and tags — Behance carries no written descriptions — so read them before this goes public and put them in your own words. Replace the generated images in public/works/ with real screenshots when you can.",
+  "eyebrow": "Room Three — Arles, 1888–89",
+  "title": "Selected work",
+  "intro": "Eight bold months, a yellow house, and more finished canvases than anyone expected. This corridor holds mine.",
+  "cue": "Keep scrolling — the gallery runs sideways",
+  "works": [
+    {
+      "id": "mechanic",
+      "title": "On-Demand Mechanic",
+      "medium": "Figma, ChatGPT, Freepik",
+      "year": "2025",
+      "note": "The first thing I designed where the hard part was the waiting, not the booking.",
+      "description": "A live-tracking app for on-demand car repair: request a mechanic, watch them arrive, follow the job through to handover. Most of the design work sits in the states between those moments.",
+      "role": "UI/UX design, solo",
+      "outcome": "A full booking-to-handover flow, with the tracking and workflow screens carried through to high fidelity.",
+      "link": "https://www.behance.net/gallery/232571317/OnDemand-Mechanic-App-Live-Tracking-Workflow-UI",
+      "image": "/works/mechanic.svg",
+      "alt": "Mobile app screens for an on-demand mechanic service, showing a live map with a technician en route and a job status timeline.",
+      "tint": "#1C3F73"
+    },
+    {
+      "id": "playsync",
+      "title": "PlaySync",
+      "medium": "Figma",
+      "year": "2025",
+      "note": "Brackets are a data structure before they are a screen. I drew the structure first.",
+      "description": "A tournament management interface: fixtures, brackets, scores and the running order, built so an organiser can update it from the side of a pitch rather than a desk.",
+      "role": "UI/UX design, solo",
+      "outcome": "A connected set of organiser and player screens covering setup, live scoring and standings.",
+      "link": "https://www.behance.net/gallery/219988235/PlaySync-A-Seamless-Tournament-Management-Experience",
+      "image": "/works/playsync.svg",
+      "alt": "Tournament management app screens showing a fixture bracket, a live score card and a standings table.",
+      "tint": "#3C6E71"
+    },
+    {
+      "id": "redbull",
+      "title": "Red Bull Poster",
+      "medium": "Adobe Photoshop",
+      "year": "2025",
+      "note": "An interface has a second chance to explain itself. A poster gets one.",
+      "description": "A promotional poster study for Red Bull — an unbriefed exercise in composition, energy and making a single image carry the whole message.",
+      "role": "Graphic design, solo",
+      "outcome": "A finished key visual, built for social and print crops.",
+      "link": "https://www.behance.net/gallery/223768565/Redbull-Poster-Design",
+      "image": "/works/redbull.svg",
+      "alt": "A high-energy promotional poster composition in bold colour, built around a single central product image.",
+      "tint": "#8C5A2B"
+    },
+    {
+      "id": "google-portfolio",
+      "title": "Google-Themed Portfolio",
+      "medium": "Figma",
+      "year": "2024",
+      "note": "Designing my own portfolio taught me how badly I wanted someone else to brief me.",
+      "description": "A personal portfolio concept built on Google's visual language — a search-page conceit used as a way of navigating my own work rather than as decoration.",
+      "role": "Concept and UI, solo",
+      "outcome": "A complete design concept, published while still in progress.",
+      "link": "https://www.behance.net/gallery/202212937/My-Google-Themed-Portfolio-Will-be-launched-Soon",
+      "image": "/works/google-portfolio.svg",
+      "alt": "A portfolio site concept styled after a Google search results page, with work listed as search results.",
+      "tint": "#556B4E"
+    },
+    {
+      "id": "diffusion",
+      "title": "Image Generation UI",
+      "medium": "Figma",
+      "year": "2024",
+      "note": "The interesting problem was not the output. It was giving someone a way to steer.",
+      "description": "An interface for text-to-image generation: writing the prompt, adjusting it, and comparing what comes back — designed around iteration rather than a single lucky result.",
+      "role": "UI/UX design, solo",
+      "outcome": "Prompt, generation and comparison screens, taken through to high fidelity.",
+      "link": "https://www.behance.net/gallery/202114309/Image-generation-using-AI-User-Interface",
+      "image": "/works/diffusion.svg",
+      "alt": "An AI image generation interface showing a prompt field, generation settings and a grid of resulting images.",
+      "tint": "#C98A8A"
+    },
+    {
+      "id": "weather",
+      "title": "Weather App UI",
+      "medium": "Figma",
+      "year": "2024",
+      "note": "The first thing I ever published. I can see every seam, and I am leaving it up.",
+      "description": "A weather interface built around the forecast rather than the current temperature — the question people are usually actually asking.",
+      "role": "UI design, solo",
+      "outcome": "My first published project, and the one everything after it was measured against.",
+      "link": "https://www.behance.net/gallery/196174309/Weather-app-UI",
+      "image": "/works/weather.svg",
+      "alt": "A mobile weather app interface showing current conditions above an hourly and weekly forecast.",
+      "tint": "#E8B923"
+    }
+  ]
+}

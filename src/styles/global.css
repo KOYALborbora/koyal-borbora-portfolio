@@ -1,0 +1,363 @@
+@import './tokens.css';
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto; /* Lenis owns smoothing; native smooth would fight it */
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ul,
+ol {
+  margin: 0;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+img,
+picture,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* ── Page ────────────────────────────────────────────────────────────────── */
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: var(--leading-body);
+  font-optical-sizing: auto;
+  overflow-x: hidden;
+  transition: background-color var(--dur-slow) var(--ease-paint),
+    color var(--dur-slow) var(--ease-paint);
+}
+
+/* Lenis drives scroll from JS; the wrapper must not be height-constrained. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* The exhibition hides its own scrollbar chrome but never disables scrolling. */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+body::-webkit-scrollbar-track {
+  background: #0d0b0a;
+}
+body::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 55%, #0d0b0a);
+}
+
+/* ── Type ────────────────────────────────────────────────────────────────── */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: var(--leading-display);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  /* Fraunces is variable on optical size — pushing SOFT up and WONK on gives
+     the headline the wobble of a brush that was moving too fast. */
+  font-variation-settings: 'SOFT' 40, 'WONK' 1;
+}
+
+h1 {
+  font-size: var(--step-5);
+}
+h2 {
+  font-size: var(--step-4);
+}
+h3 {
+  font-size: var(--step-2);
+}
+
+p {
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--accent-legible, var(--accent));
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: color var(--dur-fast) var(--ease-paint);
+}
+a:hover {
+  color: var(--text);
+}
+
+/* ── Canvas weave, laid over every flat colour field in the site ─────────── */
+.weave::after,
+.weave-fixed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--weave);
+  background-size: 180px 180px;
+  opacity: var(--weave-opacity);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 2;
+}
+.weave-fixed::after {
+  position: fixed;
+  z-index: 60;
+  mix-blend-mode: soft-light;
+}
+
+/* ── Focus ───────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--accent-legible, var(--accent));
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+/* Keep a visible ring even where the accent would vanish into the wall. */
+[data-room='arles'] :focus-visible {
+  outline-color: #1c3f73;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-s);
+  z-index: 200;
+  padding: var(--space-2xs) var(--space-s);
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-body);
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: var(--space-s);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Room scaffolding ────────────────────────────────────────────────────── */
+.room {
+  position: relative;
+  isolation: isolate;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color var(--dur-slow) var(--ease-paint);
+}
+
+.room__inner {
+  position: relative;
+  z-index: 3;
+  padding-inline: var(--gutter);
+  padding-block: var(--space-3xl);
+  margin-inline: auto;
+  max-width: 1440px;
+}
+
+/* Rooms whose surface is painted by WebGL let the canvas show through. */
+.room--transparent {
+  background: transparent;
+}
+
+.room__eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--text-dim);
+  margin-bottom: var(--space-xs);
+}
+
+/* ── Museum plaque, used by Arles and echoed elsewhere ───────────────────── */
+.plaque {
+  background: var(--plaque);
+  color: var(--plaque-ink);
+  padding: var(--space-s) var(--space-m);
+  border: 1px solid color-mix(in srgb, var(--plaque-ink) 22%, transparent);
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--plaque-ink) 18%, transparent);
+  max-width: 42ch;
+}
+.plaque__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-1);
+  line-height: 1.15;
+  margin-bottom: var(--space-3xs);
+}
+.plaque__meta {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: color-mix(in srgb, var(--plaque-ink) 74%, transparent);
+}
+.plaque__note {
+  font-size: var(--step--1);
+  margin-top: var(--space-2xs);
+  max-width: none;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  --btn-ink: var(--bg);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-m);
+  background: var(--accent);
+  color: var(--btn-ink);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-paint),
+    background-color var(--dur-fast) var(--ease-paint);
+}
+.btn:hover {
+  transform: translateY(-1px) rotate(-0.35deg);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--text) 40%, transparent);
+}
+
+/* ── Cursor ──────────────────────────────────────────────────────────────── */
+/* The brush cursor replaces the pointer, but only on devices that have one and
+   only when motion is welcome. Everything stays clickable regardless. */
+@media (hover: hover) and (pointer: fine) {
+  [data-brush='true'],
+  [data-brush='true'] * {
+    cursor: none;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── The persistent WebGL stage ──────────────────────────────────────────── */
+/* One canvas for the whole visit, pinned behind every room. Rooms that want it
+   visible set `transparent`; the rest paint over it with their own surface. */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.stage canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.exhibition {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Fixed overlays ──────────────────────────────────────────────────────── */
+/* Topmost of everything: it is standing in for the pointer, and a cursor that
+   disappears behind a dialog is worse than no cursor at all. */
+.brush-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+}
+
+/* ── Touch ───────────────────────────────────────────────────────────────── */
+/* Everything a finger has to hit gets a 44px target. Scoped to coarse pointers
+   so the desk version keeps its finer proportions. */
+@media (pointer: coarse) {
+  .btn,
+  .controls__btn,
+  .directory__toggle,
+  .arles__plaque-link,
+  .case__close {
+    min-height: 44px;
+  }
+
+  .btn,
+  .controls__btn,
+  .directory__toggle,
+  .case__close {
+    padding-inline: var(--space-m);
+  }
+
+  /* An underlined text button cannot grow a box without looking like one, so it
+     grows its hit area instead and leaves the underline where it was. */
+  .arles__plaque-link,
+  .auvers__link-list a,
+  .directory__item a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .auvers__field input,
+  .auvers__field textarea {
+    padding-block: var(--space-xs);
+  }
+
+  /* iOS zooms the page when a focused field is under 16px. --step-0 clamps at
+     1rem so this holds, but it is stated here because it is a rule, not luck. */
+  input,
+  textarea,
+  select {
+    font-size: max(16px, var(--step-0));
+  }
+}

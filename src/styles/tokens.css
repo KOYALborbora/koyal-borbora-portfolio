@@ -1,0 +1,149 @@
+/*
+ * VINCENT — design tokens.
+ *
+ * Two families only: Fraunces (display, pushed to 900 at a high optical size so
+ * the ink traps close up and the letterforms go genuinely inky) and Literata
+ * (body, an exhibition-placard serif). No third accent face — the expressionist
+ * energy comes from the impasto filter on the display face, not font mixing.
+ *
+ * Room palettes are re-declared per `[data-room]` so every room repaints its own
+ * surface, and any component can just use `var(--bg)` / `var(--accent)` without
+ * knowing which room it is standing in. Values mirror `src/lib/rooms.js`.
+ */
+
+:root {
+  /* ── Type ──────────────────────────────────────────────────────────────── */
+  --font-display: 'Fraunces', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Literata', Georgia, 'Iowan Old Style', 'Times New Roman', serif;
+
+  /* Fluid type scale. Clamped so the display face never overruns a phone. */
+  --step--1: clamp(0.83rem, 0.79rem + 0.2vw, 0.95rem);
+  --step-0: clamp(1rem, 0.94rem + 0.3vw, 1.15rem);
+  --step-1: clamp(1.25rem, 1.13rem + 0.6vw, 1.6rem);
+  --step-2: clamp(1.6rem, 1.35rem + 1.2vw, 2.4rem);
+  --step-3: clamp(2rem, 1.5rem + 2.5vw, 3.6rem);
+  --step-4: clamp(2.6rem, 1.6rem + 4.8vw, 6rem);
+  --step-5: clamp(3.2rem, 1.4rem + 8.5vw, 10rem);
+
+  --measure: 68ch;
+  --leading-body: 1.72;
+  --leading-display: 0.92;
+
+  /* ── Space ─────────────────────────────────────────────────────────────── */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: 9rem;
+  --gutter: clamp(1.25rem, 5vw, 5rem);
+
+  /* ── Motion ────────────────────────────────────────────────────────────── */
+  --ease-paint: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drag: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur-fast: 220ms;
+  --dur-mid: 520ms;
+  --dur-slow: 1100ms;
+
+  /* ── Surface ───────────────────────────────────────────────────────────── */
+  /* Gilt has to separate from a chrome-yellow wall, so this is an older,
+     deeper gold than a bright leaf would be, with a genuinely dark bevel. */
+  --frame-gold: #B0821C;
+  --frame-gold-dark: #4E3A0B;
+  --plaque: #E8DFCC;
+  --plaque-ink: #2A241E;
+  --radius: 2px;
+
+  /* Canvas-weave overlay. Generated once as an SVG turbulence data URI so the
+     texture ships in the stylesheet rather than as a network request. */
+  --weave: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23w)' opacity='0.55'/%3E%3C/svg%3E");
+  --weave-opacity: 0.055;
+
+  /* Defaults, immediately overridden by the active room. */
+  --bg: #14110f;
+  --accent: #e8b923;
+  --secondary: #3c6e71;
+  --text: #f5efe6;
+  --text-dim: color-mix(in srgb, var(--text) 62%, transparent);
+  --text-faint: color-mix(in srgb, var(--text) 34%, transparent);
+  --scrim: color-mix(in srgb, var(--bg) 78%, transparent);
+}
+
+/* ── Room palettes ───────────────────────────────────────────────────────── */
+
+[data-room='threshold'] {
+  --bg: #14110f;
+  --accent: #e8b923;
+  --secondary: #3c6e71;
+  --text: #f5efe6;
+}
+
+[data-room='nuenen'] {
+  --bg: #241c14;
+  --accent: #6b4a2f;
+  --secondary: #556b4e;
+  --text: #d8cfc0;
+  /* Ochre on peat is only ~2.1:1, so links and small type in this room use a
+     lifted accent while headings keep the true pigment. */
+  --accent-legible: #b98a54;
+}
+
+[data-room='paris'] {
+  --bg: #f2e9dc;
+  --accent: #c98a8a;
+  --secondary: #7fa8c9;
+  --text: #2a241e;
+  --accent-legible: #9c5757;
+}
+
+[data-room='arles'] {
+  --bg: #f4c10f;
+  --accent: #1c3f73;
+  --secondary: #8c5a2b;
+  --text: #1a1204;
+  --accent-legible: #14305a;
+}
+
+[data-room='saint-remy'] {
+  --bg: #12294b;
+  --accent: #f5d97b;
+  --secondary: #3e7ca6;
+  --text: #f5efe6;
+  --accent-legible: #f5d97b;
+}
+
+/* Auvers interpolates between two palettes as the visitor calms the sky.
+   `--calm` is written from JS as a 0→1 unitless custom property. */
+@property --calm {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+[data-room='auvers'] {
+  --calm: 0;
+  --storm-bg: #d9a441;
+  --storm-accent: #17140f;
+  --blossom-bg: #a9d6e5;
+  --blossom-accent: #3c6e71;
+
+  --bg: color-mix(in oklab, var(--storm-bg), var(--blossom-bg) calc(var(--calm) * 100%));
+  --accent: color-mix(in oklab, var(--storm-accent), var(--blossom-accent) calc(var(--calm) * 100%));
+  --secondary: #8c5a2b;
+  /* Bone white is unreadable on both of this room's skies — 1.9:1 on wheat
+     gold, little better on blossom blue. The ink stays dark across the whole
+     transition instead, travelling from crow black to a deep teal-black. */
+  --text: color-mix(in oklab, #17140f, #0d2b31 calc(var(--calm) * 100%));
+  --accent-legible: color-mix(in oklab, #3b2a0c, #14454e calc(var(--calm) * 100%));
+}
+
+/* ── Simple mode ─────────────────────────────────────────────────────────── */
+/* Same content, same palette, none of the theatre. */
+[data-simple='true'] {
+  --weave-opacity: 0.03;
+  --dur-slow: 260ms;
+  --dur-mid: 200ms;
+}

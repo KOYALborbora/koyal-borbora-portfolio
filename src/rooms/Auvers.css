@@ -1,0 +1,332 @@
+.auvers__shell {
+  position: relative;
+}
+
+/* The still version of the room, for anyone not running the stage. It carries
+   the same journey the shader does — it just arrives already resolved. */
+.auvers__fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, #d9a441, #a9d6e5 calc(var(--calm, 1) * 100%)),
+    color-mix(in oklab, #b8862f, #cfe8f2 calc(var(--calm, 1) * 100%))
+  );
+}
+
+[data-webgl='true'] .auvers__fallback {
+  display: none;
+}
+
+.auvers__inner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+  max-width: 64rem;
+  padding-block: var(--space-3xl);
+}
+
+.auvers__opening {
+  max-width: 42rem;
+}
+
+.auvers__lede {
+  margin-top: var(--space-m);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.32;
+}
+
+/* ── The guestbook ───────────────────────────────────────────────────────── */
+.auvers__book {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  /* A real guestbook: cream paper, a ruled edge, sitting open on a lectern. */
+  background: color-mix(in srgb, var(--plaque) 92%, transparent);
+  color: var(--plaque-ink);
+  border: 1px solid color-mix(in srgb, var(--plaque-ink) 20%, transparent);
+  box-shadow: 0 30px 60px -40px rgba(23, 20, 15, 0.8);
+}
+
+.auvers__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.auvers__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.auvers__field label {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: color-mix(in srgb, var(--plaque-ink) 72%, transparent);
+}
+
+.auvers__field input,
+.auvers__field textarea {
+  padding: var(--space-2xs) 0;
+  background: transparent;
+  border: none;
+  /* Ruled lines, not boxes. */
+  border-bottom: 1px solid color-mix(in srgb, var(--plaque-ink) 32%, transparent);
+  color: var(--plaque-ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  border-radius: 0;
+  resize: vertical;
+}
+
+.auvers__field input:focus-visible,
+.auvers__field textarea:focus-visible {
+  outline: none;
+  border-bottom-color: var(--plaque-ink);
+  box-shadow: 0 1px 0 0 var(--plaque-ink);
+}
+
+.auvers__submit {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  flex-wrap: wrap;
+}
+
+.auvers__submit .btn {
+  background: var(--plaque-ink);
+  color: var(--plaque);
+  --btn-ink: var(--plaque);
+}
+.auvers__submit .btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+  transform: none;
+}
+
+.auvers__status {
+  margin: 0;
+  font-size: var(--step--1);
+  color: color-mix(in srgb, var(--plaque-ink) 80%, transparent);
+}
+.auvers__status a {
+  color: inherit;
+}
+
+.auvers__links-title {
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--step-1);
+  color: var(--plaque-ink);
+}
+
+.auvers__link-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin: 0;
+  padding: 0;
+}
+
+.auvers__link-list a {
+  color: color-mix(in srgb, var(--plaque-ink) 88%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--plaque-ink) 40%, transparent);
+}
+.auvers__link-list a:hover {
+  color: var(--plaque-ink);
+}
+
+/* ── Colophon ────────────────────────────────────────────────────────────── */
+.auvers__colophon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding-top: var(--space-l);
+  border-top: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+}
+
+.auvers__signature {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 900;
+  font-variation-settings: 'SOFT' 90, 'WONK' 1;
+  color: var(--text);
+}
+
+.auvers__colophon-text {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--text) 72%, transparent);
+}
+
+@media (max-width: 820px) {
+  .auvers__book {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The house controls are pinned to the bottom corners. The last thing in the
+     building should not spend its life underneath them. */
+  .auvers__inner {
+    padding-bottom: calc(var(--space-3xl) + 3.5rem);
+  }
+}
+
+/* ── Guestbook: validation and the delivery handoff ──────────────────────── */
+.auvers__guestbook {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+}
+
+.auvers__field input[aria-invalid='true'],
+.auvers__field textarea[aria-invalid='true'] {
+  border-bottom-color: #8c2f1d;
+  box-shadow: 0 1px 0 0 #8c2f1d;
+}
+
+.auvers__error {
+  margin: 0;
+  font-size: var(--step--1);
+  font-style: italic;
+  /* Dark red on cream paper: legible at body size without turning the
+     guestbook into a form with a validation problem. */
+  color: #8c2f1d;
+}
+
+/* The honeypot. Off-canvas rather than display:none — a bot that reads styles
+   skips anything hidden, and this one is meant to be filled in. */
+.auvers__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.auvers__handoff {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  padding: var(--space-s) var(--space-m);
+  border: 1px solid color-mix(in srgb, var(--plaque-ink) 26%, transparent);
+  border-left-width: 3px;
+  border-left-color: var(--frame-gold);
+  background: color-mix(in srgb, var(--plaque-ink) 4%, transparent);
+}
+
+.auvers__handoff-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--plaque-ink);
+}
+.auvers__handoff-heading:focus-visible {
+  outline-offset: 6px;
+}
+
+.auvers__handoff-body {
+  margin: 0;
+  font-size: var(--step--1);
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--plaque-ink) 78%, transparent);
+}
+
+/* The letter as written, so the visitor can always see what they are sending
+   and take it somewhere else if every automated route fails. */
+.auvers__letter {
+  margin: var(--space-2xs) 0 0;
+  padding: var(--space-2xs) var(--space-xs);
+  max-height: 9rem;
+  overflow-y: auto;
+  background: color-mix(in srgb, var(--plaque-ink) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--plaque-ink) 14%, transparent);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--plaque-ink) 88%, transparent);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.auvers__handoff-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs) var(--space-s);
+  flex-wrap: wrap;
+  margin-top: var(--space-2xs);
+}
+
+.auvers__handoff-actions .btn {
+  background: var(--plaque-ink);
+  color: var(--plaque);
+  --btn-ink: var(--plaque);
+  text-decoration: none;
+}
+.auvers__handoff-actions .btn:hover {
+  color: var(--plaque);
+}
+
+.auvers__handoff-actions .btn--ghost {
+  background: transparent;
+  color: var(--plaque-ink);
+  border-color: color-mix(in srgb, var(--plaque-ink) 40%, transparent);
+}
+.auvers__handoff-actions .btn--ghost:hover {
+  color: var(--plaque-ink);
+  background: color-mix(in srgb, var(--plaque-ink) 8%, transparent);
+}
+
+.auvers__handoff-address {
+  font-size: var(--step--1);
+  color: color-mix(in srgb, var(--plaque-ink) 78%, transparent);
+}
+.auvers__handoff-address:hover {
+  color: var(--plaque-ink);
+}
+
+/* ── Admissions counter ──────────────────────────────────────────────────── */
+.visitors {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 var(--space-2xs);
+  margin: 0;
+  max-width: none;
+  font-size: var(--step--1);
+  color: color-mix(in srgb, var(--text) 82%, transparent);
+}
+
+.visitors__label {
+  font-style: italic;
+}
+
+.visitors__number {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--step-1);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* The disclosure sits on its own line and stays quiet: it is a promise, not a
+   feature. */
+.visitors__note {
+  flex-basis: 100%;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--text) 58%, transparent);
+}

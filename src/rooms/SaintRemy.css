@@ -1,0 +1,131 @@
+.remy {
+  position: relative;
+}
+
+/* The still night, shown whenever the stage is not running. Layered radial
+   washes plus the site-wide canvas weave: no shader, same room. */
+.remy__fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 82% 26%, color-mix(in srgb, var(--accent) 55%, transparent) 0 3%, transparent 22%),
+    radial-gradient(ellipse 60% 40% at 25% 30%, color-mix(in srgb, var(--secondary) 45%, transparent), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 70% 62%, color-mix(in srgb, var(--secondary) 30%, transparent), transparent 72%),
+    linear-gradient(to bottom, #0d1f3a, var(--bg) 55%, #0a1729);
+}
+
+[data-webgl='true'] .remy__fallback {
+  display: none;
+}
+
+.remy__inner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+  max-width: 68rem;
+  padding-block: var(--space-3xl);
+}
+
+.remy__opening {
+  max-width: 40rem;
+}
+
+.remy__lede {
+  margin-top: var(--space-m);
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--text);
+  text-shadow: 0 2px 30px color-mix(in srgb, var(--bg) 90%, transparent);
+}
+
+.remy__movements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: movement;
+}
+
+.remy__movement {
+  position: relative;
+  max-width: 34rem;
+  padding: var(--space-m) var(--space-l);
+  /* Each movement gets a scrim rather than a card: the sky stays visible
+     through it, but the type keeps a legible ground to sit on. */
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--bg) 78%, transparent),
+    color-mix(in srgb, var(--bg) 40%, transparent)
+  );
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* The movements alternate sides, so the eye crosses the sky between them. */
+.remy__movement:nth-child(even) {
+  align-self: flex-end;
+}
+
+.remy__movement-mark {
+  position: absolute;
+  top: var(--space-s);
+  right: var(--space-m);
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 900;
+  line-height: 1;
+  color: color-mix(in srgb, var(--accent) 26%, transparent);
+}
+
+.remy__movement-heading {
+  /* Clear of the corner mark. */
+  padding-right: 2.5ch;
+  margin: 0 0 var(--space-2xs);
+  font-size: var(--step-2);
+  color: var(--text);
+}
+
+.remy__movement-body {
+  margin: 0;
+  font-size: var(--step-0);
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+}
+
+.remy__interaction {
+  align-self: flex-start;
+}
+
+@media (max-width: 700px) {
+  /* The number sits above the heading rather than over it — there is no room
+     for a corner mark once the heading takes three lines. */
+  .remy__movement-mark {
+    position: static;
+    display: block;
+    margin-bottom: var(--space-3xs);
+    font-size: var(--step-1);
+    line-height: 1;
+    color: color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+
+  .remy__movement,
+  .remy__movement:nth-child(even) {
+    align-self: stretch;
+    padding: var(--space-s) var(--space-m);
+  }
+  .remy__movements {
+    gap: var(--space-2xl);
+  }
+  .remy__inner {
+    gap: var(--space-2xl);
+  }
+}

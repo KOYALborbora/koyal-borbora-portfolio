@@ -1,0 +1,224 @@
+.arles__track {
+  position: relative;
+}
+
+.arles__pane {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* Chrome yellow is close to unusable as a full-bleed wall, so the room is lit
+   the way a real one is: brighter where the work hangs, deeper at the skirting. */
+.arles::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--secondary) 22%, transparent),
+    transparent 26%,
+    transparent 74%,
+    color-mix(in srgb, var(--text) 16%, transparent)
+  );
+  pointer-events: none;
+}
+
+.arles__rail-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 15%;
+  height: 2px;
+  background: color-mix(in srgb, var(--text) 22%, transparent);
+  z-index: 1;
+}
+
+.arles__rail {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(2rem, 6vw, 7rem);
+  margin: 0;
+  padding: 0 var(--gutter);
+  list-style: none;
+  will-change: transform;
+  z-index: 2;
+}
+
+.arles__card {
+  flex: 0 0 auto;
+  width: clamp(18rem, 32vw, 28rem);
+  align-self: center;
+}
+
+.arles__intro {
+  margin-top: var(--space-m);
+  font-size: var(--step-1);
+  line-height: 1.5;
+}
+
+.arles__cue {
+  margin-top: var(--space-m);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--accent-legible);
+}
+.arles__cue::before {
+  content: '→ ';
+}
+
+/* ── A work on the wall ──────────────────────────────────────────────────── */
+.arles__work {
+  flex: 0 0 auto;
+  width: clamp(20rem, 42vw, 38rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-m);
+  padding-top: 20vh;
+}
+
+/* The wire the work hangs by, running up to the picture rail. */
+.arles__frame::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: 5vh;
+  background: color-mix(in srgb, var(--text) 34%, transparent);
+}
+
+.arles__frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: var(--tint, #1c3f73);
+  border: clamp(8px, 1.2vw, 16px) solid var(--frame-gold);
+  border-radius: 1px;
+  cursor: pointer;
+  /* Gilt is a bevel, not a colour: an inner light line, an outer dark one, and
+     a real shadow cast onto the wall behind. */
+  box-shadow: inset 0 0 0 2px var(--frame-gold-dark),
+    inset 0 0 22px rgba(0, 0, 0, 0.35), 0 18px 34px -20px rgba(26, 18, 4, 0.75);
+  transform-origin: center bottom;
+  transition: transform 320ms var(--ease-paint), box-shadow 320ms var(--ease-paint);
+}
+
+.arles__frame:hover,
+.arles__frame:focus-visible {
+  transform: translateY(-8px) scale(1.012);
+  box-shadow: inset 0 0 0 2px var(--frame-gold-dark),
+    inset 0 0 22px rgba(0, 0, 0, 0.35), 0 34px 60px -24px rgba(26, 18, 4, 0.85);
+}
+
+/* The lift: the canvas comes off the wall before the case study opens. */
+.arles__frame.is-lifting {
+  transform: translateY(-26px) scale(1.06) rotate(-0.8deg);
+  box-shadow: inset 0 0 0 2px var(--frame-gold-dark),
+    0 60px 90px -30px rgba(26, 18, 4, 0.9);
+}
+
+.arles__canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* A single raking highlight, as if there were glass over the work. */
+.arles__glass {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    104deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 255, 255, 0) 62%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  pointer-events: none;
+}
+
+.arles__plaque {
+  align-self: flex-start;
+  margin-left: clamp(0px, 2vw, 1.5rem);
+}
+
+.arles__plaque-link {
+  margin-top: var(--space-2xs);
+  padding: 0;
+  background: none;
+  border: none;
+  border-bottom: 1px solid currentColor;
+  color: color-mix(in srgb, var(--plaque-ink) 80%, transparent);
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+.arles__plaque-link:hover {
+  color: var(--plaque-ink);
+}
+
+.arles__card--end {
+  width: clamp(16rem, 28vw, 24rem);
+}
+
+.arles__end {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+/* ── Stacked fallback ────────────────────────────────────────────────────── */
+.arles[data-still='true'] .arles__pane {
+  height: auto;
+  overflow: visible;
+  padding-block: var(--space-3xl);
+}
+
+.arles[data-still='true'] .arles__rail-line,
+.arles[data-still='true'] .arles__frame::before,
+.arles[data-still='true'] .arles__cue {
+  display: none;
+}
+
+.arles[data-still='true'] .arles__rail {
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 52rem;
+  margin-inline: auto;
+  gap: var(--space-2xl);
+  transform: none !important;
+}
+
+.arles[data-still='true'] .arles__card,
+.arles[data-still='true'] .arles__work {
+  width: 100%;
+  padding-top: 0;
+}
+
+@media (max-width: 700px) {
+  .arles[data-still='true'] .arles__rail {
+    gap: var(--space-xl);
+  }
+  .arles[data-still='true'] .arles__pane {
+    padding-block: var(--space-2xl);
+  }
+  .arles__work {
+    width: min(86vw, 26rem);
+    padding-top: 0;
+  }
+  .arles__card,
+  .arles__card--intro {
+    width: min(86vw, 24rem);
+  }
+  .arles__plaque {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,111 @@
+.drip {
+  --pull: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding-top: var(--space-s);
+  /* pan-y, not none: on a phone the drag direction and the scroll direction are
+     the same one, and stealing it would trap the visitor at the front door.
+     A swipe scrolls (which also enters the room); a tap opens it. */
+  touch-action: pan-y;
+}
+
+/* The hanging thread of paint. It lengthens as the visitor pulls. */
+.drip__line {
+  position: relative;
+  display: block;
+  width: 2px;
+  height: 3.5rem;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--accent) 70%, transparent) 35%,
+    var(--accent)
+  );
+  transform: scaleY(calc(1 + var(--pull) * 1.6));
+  transform-origin: top;
+  transition: transform 180ms var(--ease-drag);
+}
+
+/* A second, thinner run that lags behind — paint does not fall evenly. */
+.drip__run {
+  position: absolute;
+  left: 0;
+  top: 40%;
+  width: 100%;
+  height: calc(60% + var(--pull) * 90%);
+  background: var(--accent);
+  opacity: 0.55;
+  transform-origin: top;
+}
+
+/* The bead a visitor sees is 18px across. The target they hit is 44px, because
+   a fingertip is not a mouse pointer — the button is the target and the bead is
+   drawn inside it. */
+.drip__bead {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: grab;
+  touch-action: pan-y;
+  transform: translateY(calc(var(--pull) * 34px)) scale(calc(1 + var(--pull) * 0.5));
+  transition: transform 180ms var(--ease-drag);
+}
+
+.drip__bead::before {
+  content: '';
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50% 50% 55% 55% / 45% 45% 60% 60%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent);
+  transition: box-shadow var(--dur-mid) var(--ease-paint);
+  animation: drip-swell 3.6s var(--ease-paint) infinite;
+}
+
+.drip__bead:active {
+  cursor: grabbing;
+}
+
+.drip__bead:hover::before,
+.drip__bead:focus-visible::before {
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+@keyframes drip-swell {
+  0%,
+  100% {
+    border-radius: 50% 50% 55% 55% / 45% 45% 60% 60%;
+  }
+  50% {
+    border-radius: 48% 52% 60% 40% / 40% 44% 66% 60%;
+  }
+}
+
+/* The bead sits 44px tall now, so the line has to meet it rather than the gap
+   it used to leave. */
+.drip__line {
+  margin-bottom: -13px;
+}
+
+.drip__label {
+  font-size: 0.72rem;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: var(--text-dim);
+  transform: translateY(calc(var(--pull) * 34px));
+  transition: transform 180ms var(--ease-drag), opacity var(--dur-fast) var(--ease-paint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drip__bead::before {
+    animation: none;
+  }
+}

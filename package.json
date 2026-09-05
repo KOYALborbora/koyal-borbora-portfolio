@@ -1,0 +1,29 @@
+{
+  "name": "vincent-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "VINCENT — an interactive portfolio staged as a walk through a Van Gogh retrospective.",
+  "scripts": {
+    "predev": "node scripts/generate-textures.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/generate-textures.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "textures": "node scripts/generate-textures.mjs"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.114.3",
+    "@react-three/fiber": "^8.17.10",
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.14",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.169.0",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
+    "vite": "^5.4.10"
+  }
+}

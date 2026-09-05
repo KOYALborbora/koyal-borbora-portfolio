@@ -1,0 +1,11 @@
+# Keep the repository in LF and let each checkout use whatever its platform
+# prefers. Without this, editing on Windows rewrites every file's endings and
+# the first diff anyone sees is 5,000 lines of nothing.
+* text=auto eol=lf
+
+# Generated placeholder artwork — diffing it helps nobody.
+public/works/*.svg linguist-generated=true
+public/favicon.svg linguist-generated=true
+package-lock.json linguist-generated=true
+
+*.glsl linguist-language=GLSL

@@ -1,0 +1,53 @@
+{
+  "_edit": "Auvers room. Guestbook. Leave `formAction` empty and the form composes a pre-filled email — no backend, works today. Paste a Formspree / Web3Forms / FormSubmit endpoint into `formAction` and the same form posts there instead, so messages land in the inbox without the visitor needing a mail app.",
+  "eyebrow": "Room Five — Auvers, 1890",
+  "title": "Something new is starting",
+  "lede": "Van Gogh's last spring, he painted almond blossom for a newborn nephew. Not an ending. A beginning, in the palest blue he ever mixed.",
+  "calmPrompt": "Press and hold the sky to calm it",
+  "calmedPrompt": "There it is. Sign the guestbook.",
+  "formAction": "",
+  "email": "ikoyalborbora@gmail.com",
+  "subjectPrefix": "A note from",
+  "formLabels": {
+    "name": "Your name",
+    "email": "Where I can reach you",
+    "message": "What you would like to say",
+    "submit": "Sign the guestbook",
+    "sending": "Signing…",
+    "sent": "Signed. I will write back.",
+    "error": "That did not send. You can email me directly instead."
+  },
+  "formErrors": {
+    "name": "I would like to know who is writing.",
+    "email": "That does not look like an address I could reply to.",
+    "message": "Say a little more and I will read all of it."
+  },
+  "mailtoHandoff": {
+    "heading": "Your email app should be opening.",
+    "body": "Nothing happened? Some browsers have no mail app to hand. Take either route below and it reaches the same place.",
+    "gmail": "Open in Gmail",
+    "copy": "Copy the message",
+    "copied": "Copied — paste it anywhere",
+    "copyFailed": "Select the message above and copy it"
+  },
+  "links": [
+    {
+      "label": "Email",
+      "href": "mailto:ikoyalborbora@gmail.com"
+    },
+    {
+      "label": "Behance",
+      "href": "https://www.behance.net/koyal"
+    },
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/in/koyal-borbora-a2716724b"
+    }
+  ],
+  "colophon": "Type: Fraunces & Literata. Sky: curl noise and a lot of patience. Palettes after Van Gogh, whose paintings entered the public domain long ago; no painting images are reproduced here.",
+  "visitors": {
+    "enabled": true,
+    "label": "You are visitor no.",
+    "note": "Counted once per browser. No cookies, no accounts, nothing personal stored."
+  }
+}
