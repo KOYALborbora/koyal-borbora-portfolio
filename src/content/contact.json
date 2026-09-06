@@ -44,10 +44,10 @@
       "href": "https://www.linkedin.com/in/koyal-borbora-a2716724b"
     }
   ],
-  "colophon": "Type: Fraunces & Literata. Palettes after Van Gogh; no painting images are reproduced here.",
+  "colophon": "",
   "visitors": {
     "enabled": true,
     "label": "You are visitor no.",
-    "note": "Counted once per browser. No cookies, no accounts, nothing personal stored."
+    "note": ""
   }
 }

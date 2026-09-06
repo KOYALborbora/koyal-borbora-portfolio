@@ -36,7 +36,7 @@ export default function SaintRemy() {
           {copy.movements.map((movement, i) => (
             <li key={movement.id} className="remy__movement">
               <span className="remy__movement-mark" aria-hidden="true">
-                {i + 1}
+                {String(i + 1).padStart(2, '0')}
               </span>
               <h3 className="remy__movement-heading">{movement.heading}</h3>
               <p className="remy__movement-body">{movement.body}</p>

@@ -1,5 +1,5 @@
 {
-  "_edit": "Paris. Tool names only. The pointillist reveal is the content; a caption under it is noise.",
+  "_edit": "Paris. Real tools. Figma and Photoshop are credited on your Behance projects; ChatGPT and Freepik on the mechanic app; React from the Fraemerate build. Add anything I do not know about and cut anything you would not want asked about in an interview.",
   "eyebrow": "Room Two — Paris, 1886–88",
   "title": "Tools",
   "intro": "",
@@ -10,32 +10,24 @@
       "name": "Figma"
     },
     {
-      "id": "ui",
-      "name": "UI Design"
-    },
-    {
-      "id": "ux",
-      "name": "UX & Flows"
-    },
-    {
-      "id": "systems",
-      "name": "Design Systems"
+      "id": "photoshop",
+      "name": "Photoshop"
     },
     {
       "id": "prototyping",
       "name": "Prototyping"
     },
     {
-      "id": "mobile",
-      "name": "Mobile"
+      "id": "design-systems",
+      "name": "Design Systems"
     },
     {
-      "id": "photoshop",
-      "name": "Photoshop"
+      "id": "react",
+      "name": "React"
     },
     {
-      "id": "branding",
-      "name": "Branding"
+      "id": "ai",
+      "name": "AI Tools"
     }
   ]
 }

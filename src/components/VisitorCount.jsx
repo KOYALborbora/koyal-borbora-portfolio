@@ -38,7 +38,7 @@ export default function VisitorCount() {
             differently in en-IN than in en-US, and this one is Indian. */}
         {new Intl.NumberFormat().format(count)}
       </span>
-      <span className="visitors__note">{config.note}</span>
+      {config.note && <span className="visitors__note">{config.note}</span>}
     </p>
   )
 }

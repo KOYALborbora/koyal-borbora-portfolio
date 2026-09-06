@@ -28,7 +28,7 @@ export default function Threshold() {
           </ImpastoText>
 
           <p className="threshold__tagline">
-            {copy.role}. {copy.tagline}
+            {copy.tagline ? `${copy.role}. ${copy.tagline}` : copy.role}
           </p>
         </div>
 

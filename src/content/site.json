@@ -1,8 +1,8 @@
 {
-  "_edit": "Threshold. Name, role, one short line. Nothing else belongs here.",
+  "_edit": "Threshold. Name and one line under it. `tagline` is optional and renders nothing when empty.",
   "name": "Koyal Borbora",
-  "role": "UI/UX Designer",
-  "tagline": "Mobile products, design systems, brand.",
+  "role": "Visuals · Interfaces · Experiments",
+  "tagline": "",
   "portraitAlt": "A stylised, painterly portrait of Koyal Borbora in heavy brushstrokes against a dark ground, eyes following the visitor.",
   "scrollCue": "Pull to enter",
   "signature": "Koyal Borbora",

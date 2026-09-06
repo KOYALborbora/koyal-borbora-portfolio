@@ -1,23 +1,33 @@
 {
-  "_edit": "Saint-Remy. DRAFT — three lines, still mine. Three sentences on how you actually work, and they are short enough to replace in a minute.",
+  "_edit": "Saint-Remy. Koyal's own words. The room numbers the steps itself, so headings carry no number.",
   "eyebrow": "Room Four — Saint-Rémy, 1889–90",
-  "title": "Process",
+  "title": "My Design Process",
   "lede": "",
   "movements": [
     {
-      "id": "flows",
-      "heading": "Flows first",
-      "body": "Map what someone is trying to do before drawing a screen."
+      "id": "stare",
+      "heading": "Stare at the problem",
+      "body": "A problem, an idea, a feeling, or simply a “what if?”"
     },
     {
-      "id": "states",
-      "heading": "Then the states",
-      "body": "Loading, empty, failed. Most of the work is not the happy path."
+      "id": "mess",
+      "heading": "Make a mess",
+      "body": "Ideas, references, sketches, questionable concepts. Everything goes in."
     },
     {
-      "id": "system",
-      "heading": "Then the system",
-      "body": "Components and tokens, so the next screen is faster than the last."
+      "id": "vibe",
+      "heading": "Find the vibe",
+      "body": "Turn the chaos into a visual direction that actually makes sense."
+    },
+    {
+      "id": "work",
+      "heading": "Make it work",
+      "body": "Design, prototype, test, break, fix. Repeat."
+    },
+    {
+      "id": "ship",
+      "heading": "Ship it",
+      "body": "Polish the details, overthink them one last time, then let it exist in the wild."
     }
   ],
   "starPrompt": "Click the sky to light a star.",
