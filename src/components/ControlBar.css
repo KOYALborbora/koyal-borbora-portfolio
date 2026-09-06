@@ -7,40 +7,43 @@
   z-index: 100;
 }
 
+/* No chrome of its own: the button is the painting. A hairline in the room's
+   own text colour keeps it findable on Saint-Rémy, where a midnight-blue disc
+   on a midnight-blue sky would otherwise disappear entirely, and a soft shadow
+   lifts it off the wall the way the framed work does. */
 .controls__btn {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: block;
   width: 2.75rem;
   height: 2.75rem;
   padding: 0;
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
-  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  background: none;
+  border: none;
   border-radius: 50%;
-  color: var(--text);
   cursor: pointer;
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  transition: border-color var(--dur-fast) var(--ease-paint),
-    color var(--dur-fast) var(--ease-paint), background-color var(--dur-fast) var(--ease-paint);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 22%, transparent),
+    0 6px 18px -8px rgba(0, 0, 0, 0.6);
+  transition: box-shadow var(--dur-fast) var(--ease-paint),
+    transform var(--dur-fast) var(--ease-paint);
 }
 
 .controls__btn:hover,
 .controls__btn:focus-visible {
-  border-color: color-mix(in srgb, var(--text) 55%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text) 45%, transparent),
+    0 0 0 6px color-mix(in srgb, var(--accent) 16%, transparent),
+    0 10px 22px -10px rgba(0, 0, 0, 0.7);
 }
 
-/* Pressed state carries the room's accent, so "off" is legible at a glance
-   rather than only from the struck-through icon. */
-.controls__btn[aria-pressed='true'] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--bg);
+.controls__btn:active {
+  transform: translateY(0);
 }
 
 .controls__icon {
-  width: 1.35rem;
-  height: 1.35rem;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .controls__tip {
@@ -79,5 +82,12 @@
      accessible name still carries the full explanation. */
   .controls__tip {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .controls__btn:hover,
+  .controls__btn:focus-visible {
+    transform: none;
   }
 }
