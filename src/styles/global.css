@@ -323,17 +323,15 @@ a:hover {
 /* Everything a finger has to hit gets a 44px target. Scoped to coarse pointers
    so the desk version keeps its finer proportions. */
 @media (pointer: coarse) {
+  /* The two icon controls size themselves — a min-height would flatten the
+     circle — so they are not in this list. */
   .btn,
-  .controls__btn,
-  .directory__toggle,
   .arles__plaque-link,
   .case__close {
     min-height: 44px;
   }
 
   .btn,
-  .controls__btn,
-  .directory__toggle,
   .case__close {
     padding-inline: var(--space-m);
   }
@@ -341,8 +339,7 @@ a:hover {
   /* An underlined text button cannot grow a box without looking like one, so it
      grows its hit area instead and leaves the underline where it was. */
   .arles__plaque-link,
-  .auvers__link-list a,
-  .directory__item a {
+  .auvers__link-list a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;

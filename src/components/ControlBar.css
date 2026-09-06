@@ -1,65 +1,83 @@
+/* Top right, opposite the room titles, which are always top left. It is the one
+   corner that is free in every room. */
 .controls {
   position: fixed;
-  bottom: clamp(0.75rem, 2.5vw, 1.75rem);
-  left: clamp(0.75rem, 2.5vw, 1.75rem);
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
   z-index: 100;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2xs);
-  max-width: min(22rem, 60vw);
 }
 
 .controls__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2xs);
-  padding: var(--space-3xs) var(--space-xs);
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
-  border: 1px solid color-mix(in srgb, var(--text) 26%, transparent);
-  border-radius: var(--radius);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 22%, transparent);
+  border-radius: 50%;
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: var(--step--1);
   cursor: pointer;
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
-  transition: border-color var(--dur-fast) var(--ease-paint);
+  transition: border-color var(--dur-fast) var(--ease-paint),
+    color var(--dur-fast) var(--ease-paint), background-color var(--dur-fast) var(--ease-paint);
 }
 
-.controls__btn:hover {
+.controls__btn:hover,
+.controls__btn:focus-visible {
   border-color: color-mix(in srgb, var(--text) 55%, transparent);
 }
 
-.controls__dot {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  border: 1px solid currentColor;
-  background: transparent;
-  transition: background-color var(--dur-fast) var(--ease-paint);
-}
-.controls__dot[data-on='true'] {
+/* Pressed state carries the room's accent, so "off" is legible at a glance
+   rather than only from the struck-through icon. */
+.controls__btn[aria-pressed='true'] {
   background: var(--accent);
   border-color: var(--accent);
+  color: var(--bg);
 }
 
-.controls__note {
-  margin: 0;
+.controls__icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.controls__tip {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.5rem);
+  transform: translateY(-50%) translateX(6px);
+  padding: 0.2rem var(--space-2xs);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  color: var(--text);
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-style: italic;
-  line-height: 1.4;
-  color: var(--text-dim);
-  max-width: 24ch;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-paint),
+    transform var(--dur-fast) var(--ease-paint);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 
-/* On a phone the controls sit opposite the floor plan so the two never overlap. */
-@media (max-width: 900px) {
-  .controls {
-    bottom: clamp(0.75rem, 3vw, 1.5rem);
-    max-width: 50vw;
+.controls__btn:hover .controls__tip,
+.controls__btn:focus-visible .controls__tip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+@media (pointer: coarse) {
+  .controls__btn {
+    width: 2.9rem;
+    height: 2.9rem;
   }
-  .controls__note {
+  /* Nothing hovers on a touch screen, so the tooltip would never show. The
+     accessible name still carries the full explanation. */
+  .controls__tip {
     display: none;
   }
 }

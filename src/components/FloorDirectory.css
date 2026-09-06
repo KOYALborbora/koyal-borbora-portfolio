@@ -1,163 +1,109 @@
 .directory {
   position: fixed;
   top: 50%;
-  right: clamp(0.75rem, 2vw, 2rem);
+  right: 0;
   z-index: 100;
   transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--space-2xs);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--dur-mid) var(--ease-paint);
 }
 
 /* The plan appears once the visitor has stepped inside — or the moment anybody
-   tabs into it. Six links that are in the tab order but invisible and unclickable
-   would be the worst of both worlds, so focus reveals the plan early rather than
-   leaving a keyboard visitor tabbing through a hidden menu. */
+   tabs into it, so a keyboard visitor is never tabbing through something they
+   cannot see. */
 .directory.is-visible,
 .directory:focus-within {
   opacity: 1;
   pointer-events: auto;
 }
 
-.directory__toggle {
-  display: none;
+.directory__list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The hit area is deliberately much larger than the mark inside it: six 10px
+   dots would be an unhittable target on a phone and a fiddly one with a mouse. */
+.directory__dot {
+  position: relative;
+  display: flex;
   align-items: center;
-  gap: var(--space-2xs);
-  padding: var(--space-3xs) var(--space-xs);
-  background: color-mix(in srgb, var(--bg) 88%, transparent);
-  border: 1px solid color-mix(in srgb, var(--text) 24%, transparent);
+  justify-content: flex-end;
+  width: 3rem;
+  height: 2.25rem;
+  padding-right: clamp(1.1rem, 2vw, 1.6rem);
+  text-decoration: none;
+}
+
+.directory__mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text);
+  opacity: 0.5;
+  /* A halo in the room's own ground colour, so a 8px dot survives being laid
+     over a chrome-yellow wall in one room and a swirling night sky in the next. */
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--bg) 55%, transparent);
+  transition: opacity var(--dur-fast) var(--ease-paint),
+    transform var(--dur-fast) var(--ease-paint), background-color var(--dur-fast) var(--ease-paint);
+}
+
+.directory__dot:hover .directory__mark,
+.directory__dot:focus-visible .directory__mark {
+  opacity: 1;
+  transform: scale(1.35);
+}
+
+/* The room you are standing in: a filled dab in the room's own accent, wide
+   enough to read as a marker rather than another dot. */
+.directory__dot.is-active .directory__mark {
+  width: 18px;
+  border-radius: 4px;
+  background: var(--accent);
+  opacity: 1;
+}
+
+/* The name, which only appears when it is asked for. */
+.directory__tip {
+  position: absolute;
+  right: calc(100% - 0.4rem);
+  padding: 0.2rem var(--space-2xs);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
   color: var(--text);
-  font-size: var(--step--1);
-  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-style: italic;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-paint),
+    transform var(--dur-fast) var(--ease-paint);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
 
-.directory__toggle-rule {
-  width: 1.4rem;
-  height: 1px;
-  background: var(--accent);
-}
-
-.directory__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  text-align: right;
-  /* The plan floats over a swirling sky in one room and a chrome-yellow wall in
-     another. Without a ground of its own it is legible in neither. */
-  padding: var(--space-2xs) var(--space-xs);
-  background: color-mix(in srgb, var(--bg) 70%, transparent);
-  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
-  -webkit-backdrop-filter: blur(7px);
-  backdrop-filter: blur(7px);
-}
-
-.directory__item a {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  gap: var(--space-2xs);
-  padding: 0.3rem var(--space-2xs);
-  color: var(--text);
-  text-decoration: none;
-  opacity: 0.45;
-  transition: opacity var(--dur-fast) var(--ease-paint),
-    transform var(--dur-fast) var(--ease-paint);
-}
-
-.directory__item a:hover,
-.directory__item a:focus-visible {
+.directory__dot:hover .directory__tip,
+.directory__dot:focus-visible .directory__tip {
   opacity: 1;
-  transform: translateX(-3px);
+  transform: translateX(0);
 }
 
-.directory__item.is-active a {
-  opacity: 1;
-}
-
-.directory__index {
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--text-faint);
-}
-
-.directory__labels {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-
-.directory__room {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--step--1);
-  letter-spacing: -0.01em;
-}
-
-.directory__section {
-  font-size: 0.68rem;
-  font-style: italic;
-  color: var(--text-dim);
-}
-
-/* A hairline that fills as the visitor walks the building. */
-.directory__progress {
-  position: relative;
-  width: 1px;
-  height: 3.5rem;
-  margin-right: 0.55rem;
-  background: color-mix(in srgb, var(--text) 20%, transparent);
-}
-.directory__progress::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: calc(var(--walked, 0) * 100%);
-  background: var(--accent);
-}
-
-/* Below the desktop breakpoint the plan folds into a corner sheet, so it never
-   competes with the work for a phone's very limited wall space. */
-@media (max-width: 900px) {
-  .directory {
-    top: auto;
-    bottom: clamp(0.75rem, 3vw, 1.5rem);
-    right: clamp(0.75rem, 3vw, 1.5rem);
-    transform: none;
-    align-items: flex-end;
+@media (pointer: coarse) {
+  .directory__dot {
+    width: 3.25rem;
+    height: 2.75rem;
   }
-  .directory__toggle {
-    display: inline-flex;
-    order: 2;
-  }
-  .directory__list {
-    order: 1;
-    display: none;
-    padding: var(--space-xs);
-    margin-bottom: var(--space-2xs);
-    background: color-mix(in srgb, var(--bg) 94%, transparent);
-    border: 1px solid color-mix(in srgb, var(--text) 20%, transparent);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-  }
-  .directory.is-open .directory__list {
-    display: flex;
-  }
-  .directory__item a {
-    opacity: 0.8;
-    padding: 0.4rem var(--space-2xs);
-  }
-  .directory__progress {
+  /* No hover on a touch screen, so a tooltip that needs one is a tooltip that
+     never appears. The active room's marker carries the information instead. */
+  .directory__tip {
     display: none;
   }
 }
