@@ -2,17 +2,6 @@
   position: relative;
 }
 
-.calm__field {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  cursor: grab;
-  touch-action: none;
-}
-.calm__field:active {
-  cursor: grabbing;
-}
-
 .calm__panel {
   position: relative;
   z-index: 4;
@@ -39,12 +28,10 @@
 
 .calm__btn {
   --btn-ink: var(--bg);
-  touch-action: none;
   transition: transform 140ms var(--ease-paint), box-shadow var(--dur-mid) var(--ease-paint);
 }
-.calm__btn.is-holding {
-  transform: scale(0.97);
-  box-shadow: 0 0 0 12px color-mix(in srgb, var(--accent) 12%, transparent);
+.calm__btn.is-working {
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .calm__meter {
