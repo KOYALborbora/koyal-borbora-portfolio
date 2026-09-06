@@ -163,6 +163,26 @@ into a subject — and **deterministic**, so a rebuild is byte-identical and git
 stays quiet. `SelfPaintingCanvas` follows the same shape in 2D canvas, which is
 what lets it block the room in early and find the texture later.
 
+### Two canvases in room one
+
+The café terrace is **append-only**: six hundred marks, drawn a few dozen at a
+time as the visitor scrolls past, never cleared. That is the only reason it can
+be that many marks at all — repainting the lot every frame would not fit in a
+frame. The cost is that a mark cannot be un-drawn, so scrolling back up means
+replaying the picture from a cleared canvas, and that replay is throttled
+(`REWIND_MS`) the same way the forward path is capped.
+
+The people cannot live on that canvas, because they arrive, sit, and leave. They
+get a second canvas stacked over the first, cleared and redrawn every frame, and
+the *tables* are drawn on that layer too — over the top of whoever is sitting at
+them, which is the only thing that makes a figure read as seated *at* a table
+rather than standing beside one.
+
+That layer runs on its own clamped clock rather than the rAF timestamp. An
+IntersectionObserver stops it drawing while the room is off-screen, and on wall
+time a minute spent elsewhere aged every seat past its dwell at once — a full
+café became an empty one between two frames.
+
 ## Interaction affordances
 
 The brush cursor replaces the pointer, which means the browser's own hover

@@ -4,7 +4,11 @@ import copy from '../content/bio.json'
 import './Nuenen.css'
 
 const CANVAS_ALT =
-  'A dark interior painting itself stroke by stroke: three figures seated round a table under a single hanging lamp, everything in peat and umber except the pool of warm light in the middle.'
+  'A café terrace at night, painting itself stroke by stroke: a bright yellow awning over a cobbled street, a deep blue sky full of stars, a waiter in white, and tables that slowly fill with people as you read.'
+
+/** The same terrace for anyone who asked for no movement: finished, and full. */
+const CANVAS_ALT_STILL =
+  'A café terrace at night: a bright yellow awning over a cobbled street, a deep blue sky full of stars, a waiter in white, and every table taken.'
 
 /**
  * Room 1 — Nuenen.
@@ -37,7 +41,7 @@ export default function Nuenen() {
         </div>
 
         <div className="nuenen__art">
-          <SelfPaintingCanvas alt={CANVAS_ALT} />
+          <SelfPaintingCanvas alt={CANVAS_ALT} stillAlt={CANVAS_ALT_STILL} />
         </div>
       </div>
     </Room>

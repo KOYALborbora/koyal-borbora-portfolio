@@ -94,7 +94,7 @@ two copies share one tally.
 | # | Room | Section | How it moves | Signature moment |
 | --- | --- | --- | --- | --- |
 | 0 | Threshold | Landing | vertical | Wet-paint name, a portrait that watches, a drip you pull |
-| 1 | Nuenen | Origin | vertical | A dark canvas that paints itself as you read |
+| 1 | Nuenen | Origin | vertical | A café terrace that paints itself as you read, then fills up |
 | 2 | Paris | Toolkit | pinned, horizontal | Skill names resolving out of a scatter of dots |
 | 3 | Arles | Selected work | pinned, horizontal | Framed work on a picture rail; frames lift to open |
 | 4 | Saint-Rémy | Process | vertical | The swirling sky, and stars you light yourself |
@@ -200,7 +200,7 @@ simple mode / reduced motion both mount zero WebGL.
 
 Van Gogh died in 1890, so his work is in the public domain — but **no painting
 images are reproduced here**. Every surface is generated: the skies are noise
-fields, the portrait is a set of brush-shaped paths, the Nuenen canvas is drawn
+fields, the portrait is a set of brush-shaped paths, the café terrace is drawn
 stroke by stroke, and the palettes are directions taken from his periods rather
 than swatches lifted from anyone's photograph. If you do want real painting
 images, source them from Wikimedia Commons or a museum's open-access programme;
