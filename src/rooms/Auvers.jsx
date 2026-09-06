@@ -45,7 +45,7 @@ export default function Auvers() {
             <RoomTitle id="auvers" eyebrow={copy.eyebrow}>
               {copy.title}
             </RoomTitle>
-            <p className="auvers__lede">{copy.lede}</p>
+            {copy.lede && <p className="auvers__lede">{copy.lede}</p>}
           </div>
 
           <CalmTheSky prompt={copy.calmPrompt} calmedPrompt={copy.calmedPrompt} />
@@ -68,8 +68,8 @@ export default function Auvers() {
           <footer className="auvers__colophon">
             <p className="auvers__signature">{site.signature}</p>
             <VisitorCount />
-            <p className="auvers__colophon-text">{copy.colophon}</p>
-            <p className="auvers__colophon-text">{site.footer}</p>
+            {copy.colophon && <p className="auvers__colophon-text">{copy.colophon}</p>}
+            {site.footer && <p className="auvers__colophon-text">{site.footer}</p>}
           </footer>
         </div>
       </div>

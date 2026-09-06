@@ -57,7 +57,7 @@ export default function Arles() {
               <RoomTitle id="arles" eyebrow={copy.eyebrow}>
                 {copy.title}
               </RoomTitle>
-              <p className="arles__intro">{copy.intro}</p>
+              {copy.intro && <p className="arles__intro">{copy.intro}</p>}
               <p className="arles__cue" aria-hidden="true">
                 {copy.cue}
               </p>
@@ -92,7 +92,7 @@ export default function Arles() {
                   <p className="plaque__meta">
                     {work.medium} · {work.year}
                   </p>
-                  <p className="plaque__note">{work.note}</p>
+                  <p className="plaque__note">{work.summary}</p>
                   <button
                     type="button"
                     className="arles__plaque-link"
@@ -106,12 +106,7 @@ export default function Arles() {
               </li>
             ))}
 
-            <li className="arles__card arles__card--end">
-              <p className="arles__end">
-                Fifteen months in Arles. Two hundred canvases. The yellow house
-                is gone; the yellow is not.
-              </p>
-            </li>
+
           </ol>
         </div>
       </div>

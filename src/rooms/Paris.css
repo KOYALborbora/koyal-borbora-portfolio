@@ -24,7 +24,7 @@
 
 .paris__card {
   flex: 0 0 auto;
-  width: clamp(15rem, 26vw, 22rem);
+  width: clamp(14rem, 23vw, 19rem);
 }
 
 .paris__card--intro {
@@ -49,12 +49,12 @@
   content: '→ ';
 }
 
-/* Each study is a small stretched canvas leaning on the wall. */
+/* Each study is a small stretched canvas leaning on the wall. With the caption
+   gone, the card is the canvas and nothing else. */
 .paris__study {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
-  padding: var(--space-s);
+  padding: var(--space-2xs);
   background: color-mix(in srgb, var(--bg) 60%, #fff);
   border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
   box-shadow: 0 18px 40px -28px rgba(42, 36, 30, 0.7);

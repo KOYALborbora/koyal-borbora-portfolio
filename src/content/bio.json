@@ -1,14 +1,10 @@
 {
-  "_edit": "Nuenen room. DRAFT — written from your Behance profile, not dictated by you. Rewrite it in your own voice before this goes public; the facts are right, the sentences are mine.",
+  "_edit": "Nuenen. Facts only — who, where, what. Two short paragraphs is the ceiling.",
   "eyebrow": "Room One — Nuenen, 1883–85",
-  "title": "Where the dark started",
+  "title": "About",
   "paragraphs": [
-    "The first thing I ever put out in public was a weather app. Two screens, a lot of gradients, and every decision made because it looked right rather than because I could say why. That was April 2024.",
-    "What changed after that was the asking why. I kept the eye for the small stuff — the spacing, the weight of a label, the half-second a transition should take — but I stopped treating those as the whole job. The job is the gap between something being usable and something being worth using.",
-    "I am still a student, and I still learn most from the projects that fight back. The work in the next room is roughly eighteen months of doing that in public, in the open, where anyone can see the seams."
+    "UI/UX designer in Jorhat, Assam. I design mobile products at Fraemerate Pvt. Ltd.",
+    "Studying at Jorhat Engineering College. Publishing work since 2024. Open to freelance and full-time."
   ],
-  "aside": {
-    "label": "On the wall",
-    "text": "Van Gogh spent two years in Nuenen painting weavers and peasants in near-black. He had not found colour yet. He was learning to see."
-  }
+  "aside": null
 }

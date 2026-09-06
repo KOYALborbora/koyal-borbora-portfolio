@@ -1,30 +1,25 @@
 {
-  "_edit": "Saint-Remy room. DRAFT — this is the room where the visitor hears you think, and none of it came from you. Rewrite all four movements before this goes public.",
+  "_edit": "Saint-Remy. DRAFT — three lines, still mine. Three sentences on how you actually work, and they are short enough to replace in a minute.",
   "eyebrow": "Room Four — Saint-Rémy, 1889–90",
-  "title": "How I work",
-  "lede": "Van Gogh painted the view from a barred window and turned it into the most famous sky in the world. The constraint was not the obstacle. It was the subject.",
+  "title": "Process",
+  "lede": "",
   "movements": [
     {
-      "id": "ask",
-      "heading": "Ask what they came for",
-      "body": "Nobody opens an app to admire it. They open it to find out whether it will rain, or where the mechanic has got to, or who plays next. I try to name that sentence before I open Figma, because every layout decision after it is downstream of getting it right."
-    },
-    {
-      "id": "detail",
-      "heading": "The small stuff is the job",
-      "body": "Spacing, weight, the half-second a transition takes. On their own these look like fussing. Together they are the entire difference between an interface someone trusts and one they merely tolerate."
+      "id": "flows",
+      "heading": "Flows first",
+      "body": "Map what someone is trying to do before drawing a screen."
     },
     {
       "id": "states",
-      "heading": "Design the waiting",
-      "body": "The happy path is the easy part. Most of my time goes on the states around it — loading, empty, failed, halfway there — because that is where people actually are when something matters to them."
+      "heading": "Then the states",
+      "body": "Loading, empty, failed. Most of the work is not the happy path."
     },
     {
-      "id": "public",
-      "heading": "Publish before it is safe",
-      "body": "Everything in the last room went up while I could still see what was wrong with it. Working where it can be seen is slower and more uncomfortable, and it is the only reason any of it improved."
+      "id": "system",
+      "heading": "Then the system",
+      "body": "Components and tokens, so the next screen is faster than the last."
     }
   ],
-  "starPrompt": "Click the sky to light a star. They stay lit while you are here.",
+  "starPrompt": "Click the sky to light a star.",
   "starCount": "stars lit"
 }

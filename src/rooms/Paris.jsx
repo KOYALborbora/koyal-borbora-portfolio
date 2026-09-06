@@ -37,7 +37,7 @@ export default function Paris() {
               <RoomTitle id="paris" eyebrow={copy.eyebrow}>
                 {copy.title}
               </RoomTitle>
-              <p className="paris__intro">{copy.intro}</p>
+              {copy.intro && <p className="paris__intro">{copy.intro}</p>}
               <p className="paris__cue" aria-hidden="true">
                 {copy.cue}
               </p>
@@ -49,16 +49,10 @@ export default function Paris() {
                 <span className="paris__frame">
                   <PointillistReveal label={study.name} seed={i + 1} palette={PALETTE} />
                 </span>
-                <p className="paris__study-label">{study.study}</p>
-                <p className="paris__study-note">{study.note}</p>
               </li>
             ))}
 
-            <li className="paris__card paris__card--end">
-              <p className="paris__end">
-                Two years in Paris and he never painted the same way again.
-              </p>
-            </li>
+
           </ol>
         </div>
       </div>

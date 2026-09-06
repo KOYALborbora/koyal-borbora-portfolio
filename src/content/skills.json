@@ -1,57 +1,41 @@
 {
-  "_edit": "Paris room. Drawn from the tools credited on your Behance projects. The `note` lines are drafts — say them the way you would say them.",
+  "_edit": "Paris. Tool names only. The pointillist reveal is the content; a caption under it is noise.",
   "eyebrow": "Room Two — Paris, 1886–88",
-  "title": "The toolkit",
-  "intro": "Paris is where the palette lifted. These are the tools that lifted mine.",
-  "cue": "Keep scrolling — the corridor runs sideways",
+  "title": "Tools",
+  "intro": "",
+  "cue": "Keep scrolling",
   "studies": [
     {
       "id": "figma",
-      "name": "Figma",
-      "study": "Study in structure",
-      "note": "Where everything starts and most of it gets thrown away."
+      "name": "Figma"
     },
     {
       "id": "ui",
-      "name": "UI Design",
-      "study": "Study in surface",
-      "note": "Spacing, weight, contrast. The small stuff that is not small."
+      "name": "UI Design"
     },
     {
       "id": "ux",
-      "name": "UX & Flows",
-      "study": "Study in sequence",
-      "note": "Mapping what someone is trying to do before drawing a single screen."
+      "name": "UX & Flows"
     },
     {
-      "id": "mobile",
-      "name": "Mobile Design",
-      "study": "Study in constraint",
-      "note": "One thumb, one hand, and about four inches to work with."
+      "id": "systems",
+      "name": "Design Systems"
     },
     {
       "id": "prototyping",
-      "name": "Prototyping",
-      "study": "Study in motion",
-      "note": "A flow you can tap is worth ten you can only describe."
+      "name": "Prototyping"
+    },
+    {
+      "id": "mobile",
+      "name": "Mobile"
     },
     {
       "id": "photoshop",
-      "name": "Photoshop",
-      "study": "Study in light",
-      "note": "For the work that has to shout across a room rather than sit in a hand."
+      "name": "Photoshop"
     },
     {
       "id": "branding",
-      "name": "Branding & Posters",
-      "study": "Study in voice",
-      "note": "Same discipline as an interface, less room to explain yourself."
-    },
-    {
-      "id": "ai",
-      "name": "AI Tools",
-      "study": "Study in speed",
-      "note": "Useful for the twentieth variation. Never for the first idea."
+      "name": "Branding"
     }
   ]
 }

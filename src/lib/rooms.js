@@ -36,7 +36,7 @@ export const ROOMS = [
     section: 'Origin',
     axis: 'vertical',
     mood: 'Earthy, dim, humble beginnings',
-    length: 1.5,
+    length: 1.25,
     palette: {
       bg: '#241C14',
       accent: '#6B4A2F',
@@ -86,7 +86,7 @@ export const ROOMS = [
     mood: 'Swirling, immersive, the emotional peak',
     // Sized to its content plus a short hold on the empty sky at the end. Much
     // more than that and the peak of the building becomes dead scroll.
-    length: 3.1,
+    length: 2.0,
     palette: {
       bg: '#12294B',
       accent: '#F5D97B',
@@ -102,7 +102,7 @@ export const ROOMS = [
     section: 'Let’s Connect',
     axis: 'vertical',
     mood: 'Turbulent sky giving way to blossom — hope, not an ending',
-    length: 2.35,
+    length: 1.9,
     palette: {
       // Auvers is the one room that transitions mid-scene. `bg`/`accent` are
       // the turbulent opening state; `bgCalm`/`accentCalm` are what "Calm the

@@ -1,18 +1,25 @@
 # Content
 
-Edit these files, not the components. Every string the visitor reads lives here.
+Edit these files, not the components. Every string a visitor reads lives here.
 
-| File | Room | What to fill in |
+**The rule for this portfolio: facts and labels only.** No invented voice, no
+philosophy, no metaphor. If a line does not state something true about you or
+your work, or label something on screen, cut it. Several fields are optional and
+render nothing when empty (`intro`, `lede`, `aside`, `footer`) - leaving them
+blank is a valid answer.
+
+| File | Room | What it wants |
 | --- | --- | --- |
-| `site.json` | Threshold | Your name, role, an 8-word tagline |
-| `bio.json` | Nuenen | Your origin story, 2-4 honest paragraphs |
-| `skills.json` | Paris | 6-10 tools, each with a one-line note |
-| `projects.json` | Arles | 4-8 works: title, medium (tech stack), year, curator's note, image |
-| `process.json` | Saint-Remy | 3-5 movements on *how* you work, not *what* you built |
-| `contact.json` | Auvers | Email, links, and a form endpoint if you want a live form |
+| `site.json` | Threshold | Name, role, one short line |
+| `bio.json` | Nuenen | Who, where, what. Two short paragraphs at most |
+| `skills.json` | Paris | Tool names. Nothing else - the reveal is the content |
+| `projects.json` | Arles | Per work: title, medium, year, role, `summary`, `description` |
+| `process.json` | Saint-Remy | Three one-line statements on how you work |
+| `contact.json` | Auvers | Email, links, optional form endpoint |
 
-Every file carries an `_edit` key describing what that room expects. The key is
-ignored by the app - it exists so this file and the data never drift apart.
+In `projects.json`, `summary` is the single line on the museum plaque and
+`description` is the two or three sentences inside the case study. There is no
+`outcome` field: do not claim a result you cannot back.
 
 ## Project images
 

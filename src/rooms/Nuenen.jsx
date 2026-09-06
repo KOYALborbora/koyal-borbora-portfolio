@@ -28,10 +28,12 @@ export default function Nuenen() {
             ))}
           </div>
 
-          <aside className="nuenen__aside">
-            <p className="nuenen__aside-label">{copy.aside.label}</p>
-            <p className="nuenen__aside-text">{copy.aside.text}</p>
-          </aside>
+          {copy.aside && (
+            <aside className="nuenen__aside">
+              <p className="nuenen__aside-label">{copy.aside.label}</p>
+              <p className="nuenen__aside-text">{copy.aside.text}</p>
+            </aside>
+          )}
         </div>
 
         <div className="nuenen__art">

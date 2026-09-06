@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useStore } from '../state/useStore.js'
 
-const W = 460
-const H = 150
+const W = 430
+const H = 260
 /** Sampling stride over the rendered glyphs. Smaller = more dots = more cost.
  *  Kept fine enough that the resolved word is genuinely readable — a scatter
  *  that never quite becomes a word is a puzzle, not an effect. */
@@ -64,7 +64,7 @@ export default function PointillistReveal({ label, seed = 1, palette }) {
       const octx = off.getContext('2d', { willReadFrequently: true })
       if (!octx) return
 
-      let size = 74
+      let size = 68
       octx.textAlign = 'center'
       octx.textBaseline = 'middle'
       const fit = () => {
@@ -72,7 +72,7 @@ export default function PointillistReveal({ label, seed = 1, palette }) {
         return octx.measureText(label).width
       }
       // Shrink until the longest tool name fits the study.
-      while (fit() > W - 40 && size > 22) size -= 3
+      while (fit() > W - 46 && size > 22) size -= 3
       octx.clearRect(0, 0, W, H)
       octx.fillStyle = '#fff'
       octx.fillText(label, W / 2, H / 2)
@@ -100,7 +100,7 @@ export default function PointillistReveal({ label, seed = 1, palette }) {
           sy: H / 2 + Math.sin(angle) * radius * 0.55,
           x: 0,
           y: 0,
-          r: 0.85 + rand() * 1.35,
+          r: 1 + rand() * 1.5,
           hue: rand(),
           drift: rand() * Math.PI * 2,
         })

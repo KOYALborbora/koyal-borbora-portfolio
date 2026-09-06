@@ -96,6 +96,7 @@ export default function CaseStudy({ work, onClose }) {
             {work.title}
           </h3>
           <p className="case__medium">{work.medium}</p>
+          <p className="case__summary">{work.summary}</p>
 
           <p className="case__description">{work.description}</p>
 
@@ -104,13 +105,7 @@ export default function CaseStudy({ work, onClose }) {
               <dt>Role</dt>
               <dd>{work.role}</dd>
             </div>
-            <div>
-              <dt>Outcome</dt>
-              <dd>{work.outcome}</dd>
-            </div>
           </dl>
-
-          <blockquote className="case__note">{work.note}</blockquote>
 
           {work.link && (
             <a

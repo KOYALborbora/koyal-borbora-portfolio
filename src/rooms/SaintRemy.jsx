@@ -29,7 +29,7 @@ export default function SaintRemy() {
           <RoomTitle id="saint-remy" eyebrow={copy.eyebrow}>
             {copy.title}
           </RoomTitle>
-          <p className="remy__lede">{copy.lede}</p>
+          {copy.lede && <p className="remy__lede">{copy.lede}</p>}
         </div>
 
         <ol className="remy__movements">
