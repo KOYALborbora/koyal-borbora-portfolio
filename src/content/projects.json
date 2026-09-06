@@ -1,17 +1,31 @@
 {
-  "_edit": "Arles room, hung in the order you named them. Titles, tools, years and links are yours. The `description`, `role`, `outcome` and `note` lines are MY DRAFTS — read them before this goes public and put them in your own words, especially anything that claims a role or an outcome. Artwork is painted from your real designs by `npm run textures`; drop a real export into public/works/ at the same filename and it will be left alone for ever.",
+  "_edit": "Arles room, hung newest and strongest first. Titles, tools, years, roles and links are yours. The `description`, `outcome` and `note` lines are MY DRAFTS — read them before this goes public, especially anything that claims a role or a result. Artwork is painted from your real designs by `npm run textures`; drop a real export into public/works/ at the same filename and it will be left alone for ever.",
   "eyebrow": "Room Three — Arles, 1888–89",
   "title": "Selected work",
-  "intro": "Eight bold months, a yellow house, and more finished canvases than anyone expected. This corridor holds interfaces, identities and one poster.",
+  "intro": "Eight bold months, a yellow house, and more finished canvases than anyone expected. This corridor holds five.",
   "cue": "Keep scrolling — the gallery runs sideways",
   "works": [
+    {
+      "id": "outplayed",
+      "title": "Outplayed.in",
+      "medium": "Figma · iOS & Android",
+      "year": "2025",
+      "note": "Ten screens, two audiences, one app. The whole job was refusing to build two.",
+      "description": "A mobile app for India's competitive gaming scene: players find communities, teams and tournaments; organisers run an event from registration through to payout without leaving the product. Communities, tournament pages, scoreboards and sponsor slots all sit in one place.",
+      "role": "Product & UI/UX design at Fraemerate Pvt. Ltd.",
+      "outcome": "A ten-screen product and the design system underneath it, documented as a full case study.",
+      "link": "https://www.behance.net/gallery/255315533/Outplayedin-Mobile-App-Case-Study",
+      "image": "/works/outplayed.svg",
+      "alt": "The Outplayed.in case study cover: the headline \"The ultimate hub for gamers and tournament hosts\" on an electric blue ground, beside three app screens — a splash screen, a communities directory, and a tournament page for Weekend Warmup 1.0 with a ten thousand rupee prize pool.",
+      "tint": "#2B3AE8"
+    },
     {
       "id": "fraemerate",
       "title": "Fraemerate",
       "medium": "Brand identity · Figma, React",
       "year": "2025",
       "note": "A mark made of five ribbons, because the studio's whole argument is that restraint still has movement in it.",
-      "description": "Identity and site for a small digital product studio. The mark is five kinked bands stacked into a diamond — a rippling frame — and the rest of the system is built to stay out of its way.",
+      "description": "Identity and site for a digital product studio. The mark is five kinked bands stacked into a diamond — a rippling frame — and the rest of the system is built to stay out of its way.",
       "role": "Identity and interface design",
       "outcome": "A live studio site at fraemerate.com, built on the same mark.",
       "link": "https://www.fraemerate.com/",
@@ -48,34 +62,6 @@
       "tint": "#0E6E68"
     },
     {
-      "id": "playsync",
-      "title": "PlaySync",
-      "medium": "Figma",
-      "year": "2025",
-      "note": "A bracket is a data structure before it is a screen. I drew the structure first.",
-      "description": "Tournament management for someone standing at the side of a pitch rather than sitting at a desk: fixtures, brackets, live scoring and standings, all reachable with one thumb.",
-      "role": "UI/UX design",
-      "outcome": "A connected set of organiser and player screens covering setup, live scoring and standings.",
-      "link": "https://www.behance.net/gallery/219988235/PlaySync-A-Seamless-Tournament-Management-Experience",
-      "image": "/works/playsync.svg",
-      "alt": "A tournament management interface: an eight-team knockout bracket across a deep blue ground resolving to a gold winner slot, with a live score card showing Team C leading Team H three to one.",
-      "tint": "#12294B"
-    },
-    {
-      "id": "diffusion",
-      "title": "Diffusion.img",
-      "medium": "Figma",
-      "year": "2024",
-      "note": "The interesting problem was not the output. It was giving someone a way to steer.",
-      "description": "An interface for text-to-image generation, designed around iteration rather than a single lucky result: write the prompt, compare what comes back, keep the seed that worked.",
-      "role": "UI/UX design",
-      "outcome": "Prompt, generation and comparison screens, taken through to high fidelity.",
-      "link": "https://www.behance.net/gallery/202114309/Image-generation-using-AI-User-Interface",
-      "image": "/works/diffusion.svg",
-      "alt": "An AI image generation interface on a near-black ground: a prompt field, a Generate button, four resulting images, and a settings panel listing model, steps, guidance, seed and size.",
-      "tint": "#15181C"
-    },
-    {
       "id": "weather",
       "title": "Weather App",
       "medium": "Figma",
@@ -88,20 +74,6 @@
       "image": "/works/weather.svg",
       "alt": "A mobile weather app interface: a large temperature over Jorhat, Assam, an hourly strip along the middle, and a five-day forecast shown as temperature bars rather than a list.",
       "tint": "#2E5E8E"
-    },
-    {
-      "id": "redbull",
-      "title": "Red Bull Poster",
-      "medium": "Adobe Photoshop",
-      "year": "2025",
-      "note": "An interface gets a second chance to explain itself. A poster gets one.",
-      "description": "An unbriefed poster study: composition, energy, and making a single image carry the whole message with no interface to fall back on.",
-      "role": "Graphic design",
-      "outcome": "A finished key visual, built for social and print crops.",
-      "link": "https://www.behance.net/gallery/223768565/Redbull-Poster-Design",
-      "image": "/works/redbull.svg",
-      "alt": "A promotional poster study: a can centred on a deep blue ground with gold rays radiating behind it, and the words GIVES YOU WINGS in heavy display type.",
-      "tint": "#10233F"
     }
   ]
 }

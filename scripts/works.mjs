@@ -24,6 +24,7 @@ import {
   statusBar,
   document_,
 } from './artwork.mjs'
+import { outplayed } from './works-outplayed.mjs'
 
 /* ── Fraemerate ─────────────────────────────────────────────────────────── */
 
@@ -476,158 +477,6 @@ export function mechanic() {
   })
 }
 
-/* ── PlaySync ───────────────────────────────────────────────────────────── */
-
-export function playsync() {
-  const rand = seeded('playsync')
-  const bg = '#12294B'
-  const line = '#3E7CA6'
-  const gold = '#F5D97B'
-  const paper = '#F1EDE4'
-  let s = ''
-
-  s += paint(rand, 0, 0, W, H, {
-    color: bg,
-    tones: [shade(bg, -0.3), bg, shade(bg, 0.2)],
-    angle: -0.4,
-    density: 0.05,
-    width: [16, 44],
-    opacity: [0.2, 0.48],
-  })
-  s += text('PlaySync', 88, 118, { size: 56, color: paper, weight: 900, family: 'Fraunces, Georgia, serif' })
-  s += text('Quarter-finals · Round 3', 92, 158, { size: 24, color: line })
-
-  // A bracket, drawn the way a bracket actually is.
-  const bx = 88
-  const by = 230
-  const cellW = 208
-  const cellH = 58
-  const rounds = [8, 4, 2, 1]
-  rounds.forEach((count, r) => {
-    const gap = (H - 300) / count
-    for (let i = 0; i < count; i++) {
-      const y = by + gap * i + gap / 2 - cellH / 2
-      const x = bx + r * (cellW + 60)
-      s += card(rand, x, y, cellW, cellH, {
-        fill: r === 3 ? gold : shade(bg, 0.16),
-        rx: 10,
-        grain: 0.05,
-      })
-      s += text(r === 3 ? 'Winner' : `Team ${String.fromCharCode(65 + ((i * (r + 2)) % 12))}`, x + 20, y + 40, {
-        size: 21,
-        color: r === 3 ? bg : paper,
-        weight: r === 3 ? 700 : 400,
-      })
-      if (r < 3 && i % 2 === 0) {
-        const y2 = by + gap * (i + 1) + gap / 2
-        const midX = x + cellW + 30
-        s += brush(rand, x + cellW, y + cellH / 2, midX, y + cellH / 2, { color: line, width: 4, opacity: 0.8, bow: 0.02 })
-        s += brush(rand, x + cellW, y2, midX, y2, { color: line, width: 4, opacity: 0.8, bow: 0.02 })
-        s += brush(rand, midX, y + cellH / 2, midX, y2, { color: line, width: 4, opacity: 0.8, bow: 0.02 })
-        s += brush(rand, midX, (y + cellH / 2 + y2) / 2, midX + 30, (y + cellH / 2 + y2) / 2, {
-          color: line,
-          width: 4,
-          opacity: 0.8,
-          bow: 0.02,
-        })
-      }
-    }
-  })
-
-  // The live score card an organiser actually keeps open.
-  s += card(rand, 1150, 300, 380, 400, { fill: paper, rx: 20, grain: 0.045 })
-  s += text('LIVE', 1180, 350, { size: 20, color: '#C7522A', weight: 700, letter: 3 })
-  s += text('Team C', 1180, 420, { size: 32, color: '#1A1204', weight: 700, family: 'Fraunces, Georgia, serif' })
-  s += text('Team H', 1180, 480, { size: 32, color: '#1A1204', weight: 700, family: 'Fraunces, Georgia, serif' })
-  s += text('3', 1498, 420, { size: 44, color: '#12294B', weight: 900, anchor: 'end', family: 'Fraunces, Georgia, serif' })
-  s += text('1', 1498, 480, { size: 44, color: '#12294B', weight: 900, anchor: 'end', family: 'Fraunces, Georgia, serif' })
-  s += brush(rand, 1180, 516, 1500, 516, { color: '#9A948B', width: 2, opacity: 0.5, bow: 0.006 })
-  s += textLines(rand, 1180, 552, 300, 4, { color: '#5A5651', gap: 22, height: 5, opacity: 0.45 })
-  s += card(rand, 1180, 640, 320, 52, { fill: '#12294B', rx: 26, grain: 0.06 })
-  s += text('Update score', 1340, 675, { size: 21, color: paper, anchor: 'middle' })
-
-  return document_(s, {
-    alt: 'A tournament management interface: an eight-team knockout bracket drawn across a deep blue ground, resolving to a gold winner slot, with a live score card beside it showing Team C leading Team H three to one.',
-    roughness: 5,
-    seed: 41,
-  })
-}
-
-/* ── Image generation ───────────────────────────────────────────────────── */
-
-export function diffusion() {
-  const rand = seeded('diffusion')
-  const bg = '#15181C'
-  const paper = '#EDEAE4'
-  const accent = '#C98A8A'
-  let s = ''
-
-  s += paint(rand, 0, 0, W, H, {
-    color: bg,
-    tones: [shade(bg, -0.4), bg, shade(bg, 0.22), '#241C14'],
-    angle: 1.5,
-    density: 0.05,
-    width: [16, 42],
-    opacity: [0.2, 0.46],
-  })
-  s += text('Diffusion.img', 88, 116, { size: 52, color: paper, weight: 900, family: 'Fraunces, Georgia, serif' })
-  s += text('Turn a sentence into a picture', 92, 156, { size: 24, color: '#8E9AA4' })
-
-  // The prompt bar — the only control that matters.
-  s += card(rand, 88, 208, 900, 78, { fill: shade(bg, 0.18), rx: 39, grain: 0.045 })
-  s += text('a cypress against a night sky, thick paint', 128, 256, { size: 25, color: paper, opacity: 0.92 })
-  s += card(rand, 1010, 208, 200, 78, { fill: accent, rx: 39, grain: 0.06 })
-  s += text('Generate', 1110, 256, { size: 25, color: '#1A1204', weight: 600, anchor: 'middle' })
-
-  // Results, four up, each one a small painting of its own.
-  const gx = 88
-  const gy = 330
-  const gw = 430
-  const gh = 290
-  for (let i = 0; i < 4; i++) {
-    const x = gx + (i % 2) * (gw + 34)
-    const y = gy + Math.floor(i / 2) * (gh + 34)
-    const tint = ['#12294B', '#3C6E71', '#8C5A2B', '#1C3F73'][i]
-    s += card(rand, x, y, gw, gh, { fill: tint, rx: 14, grain: 0.07, angle: -0.4 })
-    s += paint(rand, x, y, gw, gh, {
-      color: tint,
-      tones: [shade(tint, 0.3), shade(tint, -0.3), '#F5D97B', '#E8E6E1'],
-      angle: -0.42,
-      density: 0.085,
-      width: [8, 26],
-      opacity: [0.25, 0.6],
-      base: 0,
-      rx: 14,
-    })
-    s += `<path d="M${x + 62} ${y + gh} q ${16} ${-150} ${34} ${-186} q ${18} ${36} ${34} ${186} Z" fill="#0A1018" opacity="0.85"/>`
-    s += blob(rand, x + gw - 78, y + 66, 24, { color: '#F5D97B', opacity: 0.95, strokes: 3 })
-  }
-
-  // The seed / steps panel.
-  s += card(rand, 1010, 330, 502, 614, { fill: shade(bg, 0.14), rx: 18, grain: 0.045 })
-  const rows = [
-    ['Model', 'Stable Diffusion'],
-    ['Steps', '32'],
-    ['Guidance', '7.5'],
-    ['Seed', '84021'],
-    ['Size', '1024 × 1024'],
-  ]
-  rows.forEach(([k, v], i) => {
-    const y = 400 + i * 82
-    s += text(k, 1050, y, { size: 21, color: '#8E9AA4' })
-    s += text(v, 1472, y, { size: 22, color: paper, anchor: 'end' })
-    s += brush(rand, 1050, y + 26, 1472, y + 26, { color: '#3A4149', width: 2, opacity: 0.6, bow: 0.006 })
-  })
-  s += card(rand, 1050, 830, 422, 62, { fill: accent, rx: 31, grain: 0.06 })
-  s += text('Use this seed', 1261, 870, { size: 22, color: '#1A1204', weight: 600, anchor: 'middle' })
-
-  return document_(s, {
-    alt: 'An AI image generation interface on a near-black ground: a prompt field reading "a cypress against a night sky, thick paint", a Generate button, four resulting images each showing a cypress under a starry sky, and a settings panel listing model, steps, guidance, seed and size.',
-    roughness: 5,
-    seed: 53,
-  })
-}
-
 /* ── Weather ────────────────────────────────────────────────────────────── */
 
 export function weather() {
@@ -705,72 +554,10 @@ export function weather() {
   })
 }
 
-/* ── Red Bull poster ────────────────────────────────────────────────────── */
-
-export function redbull() {
-  const rand = seeded('redbull')
-  const navy = '#10233F'
-  const red = '#C4262E'
-  const gold = '#F4C10F'
-  const paper = '#F5EFE6'
-  let s = ''
-
-  s += paint(rand, 0, 0, W, H, {
-    color: navy,
-    tones: [shade(navy, -0.35), navy, '#1C3F73', shade(navy, 0.2)],
-    angle: 1.2,
-    density: 0.055,
-    width: [18, 54],
-    opacity: [0.22, 0.52],
-  })
-  // Rays out of the middle, the way a poster shouts.
-  for (let i = 0; i < 22; i++) {
-    const a = (i / 22) * Math.PI * 2
-    s += brush(rand, W / 2 + Math.cos(a) * 200, H / 2 + Math.sin(a) * 200, W / 2 + Math.cos(a) * 900, H / 2 + Math.sin(a) * 900, {
-      color: i % 3 === 0 ? gold : shade(navy, 0.28),
-      width: 22 + rand() * 30,
-      opacity: 0.16 + rand() * 0.16,
-      bow: 0.04,
-    })
-  }
-  s += blob(rand, W / 2, H / 2, 250, { color: gold, opacity: 0.16, strokes: 0 })
-
-  // The can, drawn as an object.
-  const cx = W / 2
-  const cy = H / 2 + 20
-  s += `<rect x="${cx - 86}" y="${cy - 250}" width="172" height="500" rx="26" fill="${paper}"/>`
-  s += paint(rand, cx - 86, cy - 250, 172, 500, {
-    color: paper,
-    tones: [shade(paper, -0.14), paper, '#C9CFD6'],
-    angle: 1.5,
-    density: 0.07,
-    width: [8, 22],
-    opacity: [0.16, 0.4],
-    base: 0,
-    rx: 26,
-  })
-  s += `<path d="M${cx - 86} ${cy - 60} L${cx + 86} ${cy - 130} L${cx + 86} ${cy + 40} L${cx - 86} ${cy + 110} Z" fill="${navy}" opacity="0.95"/>`
-  s += `<path d="M${cx - 86} ${cy + 110} L${cx + 86} ${cy + 40} L${cx + 86} ${cy + 250} L${cx - 86} ${cy + 250} Z" fill="${red}" opacity="0.9"/>`
-  s += `<rect x="${cx - 86}" y="${cy - 250}" width="172" height="34" rx="14" fill="#B9BFC6"/>`
-  s += text('RED', cx, cy - 8, { size: 40, color: gold, weight: 900, anchor: 'middle', family: 'Fraunces, Georgia, serif' })
-  s += text('BULL', cx, cy + 34, { size: 40, color: gold, weight: 900, anchor: 'middle', family: 'Fraunces, Georgia, serif' })
-
-  s += text('GIVES YOU', W / 2, 190, { size: 74, color: paper, weight: 900, anchor: 'middle', family: 'Fraunces, Georgia, serif', letter: 8 })
-  s += text('WINGS', W / 2, 900, { size: 128, color: gold, weight: 900, anchor: 'middle', family: 'Fraunces, Georgia, serif', letter: 16 })
-
-  return document_(s, {
-    alt: 'A promotional poster study: a can centred on a deep blue ground with gold rays radiating out behind it, the words GIVES YOU above and WINGS across the bottom in heavy display type.',
-    roughness: 8,
-    seed: 71,
-  })
-}
-
 export const WORKS = {
+  outplayed,
   fraemerate,
   'google-portfolio': googlePortfolio,
   mechanic,
-  playsync,
-  diffusion,
   weather,
-  redbull,
 }
