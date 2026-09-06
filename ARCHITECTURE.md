@@ -139,11 +139,37 @@ Required modules: `scenes/AmbientHaze.jsx` (`weights.current.haze`),
 GLSL lives in `src/shaders/*.glsl` and is imported as a string with Vite's
 `?raw` suffix: `import frag from '../shaders/swirl.frag.glsl?raw'`.
 
+`weightFor(index, roomFloat)` in `StageCanvas` holds a scene at full strength
+across its whole room and dissolves it only in a narrow band around each
+boundary. Do not "simplify" it to a distance falloff from the room's centre:
+that puts the next room's scene at half strength halfway through this one, and
+Auvers' wheatfield ends up rising behind Saint-Rémy's last paragraph.
+
 `ShaderPlane` exports `LOW_QUALITY`, decided once at module load from viewport
 width and pointer type, and compiles the fragment shader with a matching
 `#define`. Guard anything expensive with `#ifdef LOW_QUALITY`: the noise octave
 counts in `lib.glsl` and the per-fragment height gradients in both skies already
 are. The stage also drops to 1× device pixel ratio on coarse pointers.
+
+## Artwork
+
+`scripts/artwork.mjs` is the brush kit — seeded randomness, `paint` (a flat base
+plus a field of strokes), `card`, `phone`, `blob`, `text`. `scripts/works.mjs`
+composes one picture per project from it, keyed by the basename of that
+project's `image`. Add a project, add a composition under the same key.
+
+Two rules: **mass first, brushwork over it** — scattered strokes never resolve
+into a subject — and **deterministic**, so a rebuild is byte-identical and git
+stays quiet. `SelfPaintingCanvas` follows the same shape in 2D canvas, which is
+what lets it block the room in early and find the texture later.
+
+## Interaction affordances
+
+The brush cursor replaces the pointer, which means the browser's own hover
+states are gone. Anything interactive must therefore either match the
+`INTERACTIVE` selector in `BrushCursor` (so the brush opens into a ring over it)
+or state its own affordance in words. Rooms that ask something of the visitor
+use `components/Invitation.jsx` rather than inventing a new hint.
 
 ## Content
 

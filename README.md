@@ -38,10 +38,17 @@ first-person notes are drafts, because Behance carries no written descriptions).
 in your voice, and right now the voice is mine. Rewrite them before this is
 public. `src/content/README.md` says what each file expects.
 
-**Project images.** `npm run textures` paints an abstract placeholder canvas per
-project into `public/works/`, and never overwrites a file that already exists.
-Drop real screenshots at the same paths (≈1600×1000) and rewrite each `alt` to
-describe what the work *is*.
+**Project artwork.** Each project in the gallery is a painting *of that
+project* — the Fraemerate mark, the Google-search-page portfolio, the three
+mechanic screens — composed in `scripts/works.mjs` and brushed by the tools in
+`scripts/artwork.mjs`. The rule that keeps them legible: every shape is laid in
+as a flat mass first and brushed over at partial opacity. Strokes alone read as
+mush; strokes over a solid base read as paint.
+
+`npm run textures` repaints them, deterministically, and **never overwrites a
+file that already exists** — so dropping a real export into `public/works/` at
+the same filename replaces the painting for good. Rewrite that project's `alt`
+to match if you do.
 
 **Contact form.** Wired to `ikoyalborbora@gmail.com` and working now, with no
 backend: the guestbook validates, composes the letter, and opens the visitor's
@@ -95,6 +102,22 @@ two copies share one tally.
 
 The two horizontal rooms never ask anyone to scroll sideways: they pin to the
 viewport and translate the rail as you keep scrolling down.
+
+## Making the interactions legible
+
+Replacing the pointer with a brush means giving up every hover state the browser
+would have drawn for free, so the site has to pay that back:
+
+- **The brush answers what is under it.** Over anything that responds to a
+  click it opens into a ring and the paint brightens. One signal, everywhere,
+  bound at the document level so anything added later is covered.
+- **One invitation, reused.** Rooms that want something from the visitor use
+  the same marker — a painted target that pulses and a sentence in the
+  imperative (`components/Invitation.jsx`). It retires itself once taken, and
+  the button beside it changes its own label to match.
+- **Frames say what they do.** A painting on a wall has no natural signal that
+  it opens, so each one states it: *Lift it off the wall*, on hover and focus,
+  and permanently on touch where there is no hover.
 
 ## How it is built
 

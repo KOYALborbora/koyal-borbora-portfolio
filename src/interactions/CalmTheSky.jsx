@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../state/useStore.js'
+import Invitation from '../components/Invitation.jsx'
 import './CalmTheSky.css'
 
 const HOLD_SECONDS = 3.4
@@ -115,7 +116,9 @@ export default function CalmTheSky({ prompt, calmedPrompt }) {
       )}
 
       <div className="calm__panel">
-        <p className="calm__prompt">{settled ? calmedPrompt : prompt}</p>
+        <Invitation className="calm__prompt" done={settled} after={calmedPrompt}>
+          {fine ? prompt : 'Press and hold the button to calm the sky'}
+        </Invitation>
 
         {!settled && (
           <button
@@ -127,7 +130,7 @@ export default function CalmTheSky({ prompt, calmedPrompt }) {
             onPointerCancel={() => hold(false)}
             onKeyDown={onKeyDown}
           >
-            Calm the sky
+            {holding || calm > 0.02 ? 'Keep holding…' : 'Calm the sky'}
           </button>
         )}
 

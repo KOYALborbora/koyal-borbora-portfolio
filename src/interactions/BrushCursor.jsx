@@ -38,6 +38,9 @@ const hexToRgb = (hex) => {
  * It disables itself entirely for coarse pointers, reduced motion and simple
  * mode — and in every one of those cases the real system cursor comes back.
  */
+/** Anything that answers a click, and therefore anything the brush should react to. */
+const INTERACTIVE = 'a[href], button, input, textarea, select, [role="button"], [data-interactive]'
+
 /** A brush cursor only makes sense where there is a cursor to replace. */
 const hasFinePointer = () =>
   typeof window !== 'undefined' &&
@@ -115,6 +118,16 @@ export default function BrushCursor() {
     window.addEventListener('pointerup', onUp)
     window.addEventListener('pointercancel', onUp)
 
+    // Captured on the document rather than bound per element, so anything added
+    // to the page later — a case study, a handoff panel — is covered without
+    // having to remember to wire it up.
+    let hotTarget = 0
+    let hot = 0
+    const onOver = (e) => {
+      hotTarget = e.target?.closest?.(INTERACTIVE) ? 1 : 0
+    }
+    document.addEventListener('pointerover', onOver, true)
+
     const draw = () => {
       raf = requestAnimationFrame(draw)
       const pal = paletteRef.current
@@ -146,6 +159,8 @@ export default function BrushCursor() {
       bx += (scrollState.pointerPx.x - bx) * 0.28
       by += (scrollState.pointerPx.y - by) * 0.28
 
+      hot += (hotTarget - hot) * 0.16
+
       const dx = bx - px
       const dy = by - py
       const speed = Math.hypot(dx, dy)
@@ -174,15 +189,25 @@ export default function BrushCursor() {
       // The brush tip itself, so there is always something under the hand even
       // when it is completely still.
       const [tr, tg, tb] = pal.accent
-      const tip = 5 + pressure * 3
+      const tip = (5 + pressure * 3) * (1 + hot * 0.35)
       const grad = ctx.createRadialGradient(bx, by, 0, bx, by, tip * 2.2)
-      grad.addColorStop(0, `rgba(${tr},${tg},${tb},0.95)`)
-      grad.addColorStop(0.45, `rgba(${tr},${tg},${tb},0.45)`)
+      grad.addColorStop(0, `rgba(${tr},${tg},${tb},${0.95 - hot * 0.45})`)
+      grad.addColorStop(0.45, `rgba(${tr},${tg},${tb},${0.45 - hot * 0.28})`)
       grad.addColorStop(1, `rgba(${tr},${tg},${tb},0)`)
       ctx.fillStyle = grad
       ctx.beginPath()
       ctx.arc(bx, by, tip * 2.2, 0, Math.PI * 2)
       ctx.fill()
+
+      // Over something that responds, the brush opens into a ring — the site's
+      // stand-in for the hover state it took away by hiding the pointer.
+      if (hot > 0.01) {
+        ctx.strokeStyle = `rgba(${tr},${tg},${tb},${(0.85 * hot).toFixed(3)})`
+        ctx.lineWidth = 2 + hot * 1.5
+        ctx.beginPath()
+        ctx.arc(bx, by, 13 + hot * 11 - pressure * 4, 0, Math.PI * 2)
+        ctx.stroke()
+      }
     }
     raf = requestAnimationFrame(draw)
 
@@ -192,6 +217,7 @@ export default function BrushCursor() {
       window.removeEventListener('pointerdown', onDown)
       window.removeEventListener('pointerup', onUp)
       window.removeEventListener('pointercancel', onUp)
+      document.removeEventListener('pointerover', onOver, true)
     }
   }, [still])
 

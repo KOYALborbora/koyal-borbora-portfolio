@@ -222,3 +222,38 @@
     margin-left: 0;
   }
 }
+
+/* ── Saying what the frame does ──────────────────────────────────────────── */
+/* With the pointer replaced by a brush, a painting on a wall has no signal at
+   all that it can be opened. This is that signal, in words, on hover and on
+   focus — and on touch, where there is no hover, it simply stays visible. */
+.arles__lift {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-s);
+  transform: translate(-50%, 8px);
+  padding: var(--space-3xs) var(--space-s);
+  background: color-mix(in srgb, var(--plaque) 94%, transparent);
+  color: var(--plaque-ink);
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  font-style: italic;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-paint),
+    transform var(--dur-fast) var(--ease-paint);
+}
+
+.arles__frame:hover .arles__lift,
+.arles__frame:focus-visible .arles__lift {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (hover: none) {
+  .arles__lift {
+    opacity: 0.92;
+    transform: translate(-50%, 0);
+  }
+}

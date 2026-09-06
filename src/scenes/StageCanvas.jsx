@@ -13,14 +13,32 @@ const WheatSky = lazy(() => import('./WheatSky.jsx'))
 
 const IDX = Object.fromEntries(ROOMS.map((r) => [r.id, r.index]))
 
+/** How much of a room either side of a boundary the crossfade occupies. */
+const FADE = 0.12
+
 /**
  * How present a room's scene should be, given the visitor's fractional position
- * along the floor plan. 1 while standing in the room, easing to 0 across the
- * neighbouring rooms so scenes dissolve into each other instead of cutting.
+ * along the floor plan.
+ *
+ * Room `index` occupies roomFloat [index, index+1). Its scene is at full
+ * strength across that whole span and only dissolves in a narrow band around
+ * each boundary. The obvious version — falling off linearly from the room's
+ * start — is wrong in a way that is easy to miss and awful to see: it puts the
+ * next room's scene at half strength by the time you are halfway through this
+ * one, so Auvers' wheatfield was rising behind Saint-Remy's last paragraph.
  */
 function weightFor(index, roomFloat) {
-  const d = Math.abs(roomFloat - index)
-  return d >= 1 ? 0 : smoothstep(1 - d)
+  const start = index - FADE
+  const end = index + 1 + FADE
+  if (roomFloat <= start || roomFloat >= end) return 0
+  if (roomFloat < index + FADE) return smoothstep((roomFloat - start) / (FADE * 2))
+  if (roomFloat > index + 1 - FADE) return smoothstep((end - roomFloat) / (FADE * 2))
+  return 1
+}
+
+/** Mounted a little before it is needed, so a scene has time to warm up. */
+function nearby(index, roomFloat) {
+  return roomFloat > index - 0.55 && roomFloat < index + 1.55
 }
 
 /**
@@ -68,11 +86,9 @@ function Stage() {
     weights.current.haze = weightFor(IDX.threshold, rf)
 
     const next = {
-      haze: Math.abs(rf - IDX.threshold) < 1.35,
-      // A wider mount window than the visual window, so a scene has a frame or
-      // two to warm up before the visitor can see it.
-      sky: Math.abs(rf - IDX['saint-remy']) < 1.35,
-      wheat: Math.abs(rf - IDX.auvers) < 1.35,
+      haze: nearby(IDX.threshold, rf),
+      sky: nearby(IDX['saint-remy'], rf),
+      wheat: nearby(IDX.auvers, rf),
     }
     setNear((prev) =>
       prev.haze === next.haze && prev.sky === next.sky && prev.wheat === next.wheat

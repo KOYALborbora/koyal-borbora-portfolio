@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react'
 import { useStore } from '../state/useStore.js'
 import { scrollState } from '../state/scrollState.js'
+import Invitation from '../components/Invitation.jsx'
 import './LightTheStars.css'
 
 /**
@@ -63,10 +64,12 @@ export default function LightTheStars({ prompt, countLabel }) {
       )}
 
       <div className="stars__panel">
-        <p className="stars__prompt">{still ? 'Add a star to the sky.' : prompt}</p>
+        <Invitation className="stars__prompt" done={stars.length > 0} after="Keep going — they all stay lit.">
+          {still ? 'Add a star to the sky.' : prompt}
+        </Invitation>
         <div className="stars__row">
           <button type="button" className="btn stars__btn" onClick={lightNext}>
-            Light a star
+            {stars.length > 0 ? 'Light another' : 'Light a star'}
           </button>
           <p className="stars__count">
             <span className="stars__count-num">{stars.length}</span> {countLabel}

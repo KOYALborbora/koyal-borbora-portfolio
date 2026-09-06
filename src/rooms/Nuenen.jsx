@@ -4,7 +4,7 @@ import copy from '../content/bio.json'
 import './Nuenen.css'
 
 const CANVAS_ALT =
-  'A dark, coarse painting building itself out of ochre and peat-coloured brushstrokes: a low table, a lamp, and two bowed figures.'
+  'A dark interior painting itself stroke by stroke: three figures seated round a table under a single hanging lamp, everything in peat and umber except the pool of warm light in the middle.'
 
 /**
  * Room 1 — Nuenen.

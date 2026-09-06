@@ -82,6 +82,9 @@ export default function Arles() {
                     height="1000"
                   />
                   <span className="arles__glass" aria-hidden="true" />
+                  <span className="arles__lift" aria-hidden="true">
+                    Lift it off the wall
+                  </span>
                 </button>
 
                 <div className="plaque arles__plaque">

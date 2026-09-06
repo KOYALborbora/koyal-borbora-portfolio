@@ -16,82 +16,254 @@ function mulberry32(seed) {
 }
 
 /**
- * The picture is described as a handful of masses rather than as an image: a
- * dim ground, a lamp, a table, two bowed figures. Strokes are scattered inside
- * those masses back-to-front, which is roughly the order a painter would lay
- * them down and — usefully — also the order that reads best when they appear
- * one at a time.
- *
- * Coordinates are in a 0→1 space and scaled to the canvas, so the composition
- * survives any aspect ratio.
+ * The palette of a room where colour has not been found yet: peat, umber,
+ * bitumen, and one warm light in the middle of it.
  */
-const MASSES = [
-  // Order matters: this is the order the strokes appear in, and it is the order
-  // a painter would work in — the dark of the room first, then the light in it,
-  // then the things the light falls on, then the light source itself.
-  { cx: 0.5, cy: 0.5, rx: 0.66, ry: 0.62, count: 230, len: [0.04, 0.11], w: [11, 22], tone: 'ground', angle: 1.35, jitter: 1.5 },
-  { cx: 0.5, cy: 0.42, rx: 0.32, ry: 0.3, count: 150, len: [0.03, 0.09], w: [8, 18], tone: 'glow', angle: 0, jitter: 3.2 },
-  { cx: 0.5, cy: 0.72, rx: 0.42, ry: 0.08, count: 110, len: [0.05, 0.15], w: [11, 21], tone: 'table', angle: 0.04, jitter: 0.28 },
-  { cx: 0.25, cy: 0.54, rx: 0.13, ry: 0.21, count: 95, len: [0.03, 0.08], w: [11, 20], tone: 'figure', angle: 1.4, jitter: 0.7 },
-  { cx: 0.75, cy: 0.52, rx: 0.12, ry: 0.22, count: 95, len: [0.03, 0.08], w: [11, 20], tone: 'figure', angle: 1.78, jitter: 0.7 },
-  { cx: 0.5, cy: 0.23, rx: 0.11, ry: 0.09, count: 70, len: [0.02, 0.06], w: [6, 13], tone: 'halo', angle: 0, jitter: 3.2 },
-  { cx: 0.5, cy: 0.22, rx: 0.045, ry: 0.04, count: 44, len: [0.012, 0.038], w: [4, 9], tone: 'lamp', angle: 0, jitter: 3.2 },
-]
-
-function buildStrokes(palette) {
-  const rand = mulberry32(20250905)
-  const tones = {
-    // Nuenen is the room where Van Gogh had not found colour yet: peat, umber
-    // and bitumen, with one warm light in the middle of it. The dull sage from
-    // the palette is used once and sparingly — spread across the whole canvas
-    // it stopped reading as a dim interior and started reading as grass.
-    ground: ['#1b1410', palette.bg, '#2c2117', palette.secondary],
-    glow: ['#4a3520', '#3a2b1c', palette.accent, '#5c4227'],
-    table: ['#3f2f1d', palette.accent, '#241b12'],
-    figure: ['#110c07', '#1a130d', '#241a11'],
-    halo: ['#8a6132', '#a8793c', '#c2914d'],
-    lamp: ['#e8c07a', '#f3dda8', '#d2a55e'],
-  }
-
-  const strokes = []
-  for (const mass of MASSES) {
-    for (let i = 0; i < mass.count; i++) {
-      // Rejection-free disc sampling, biased towards the centre so masses have
-      // a dense core and a ragged edge.
-      const t = rand() * Math.PI * 2
-      const r = Math.sqrt(rand())
-      const x = mass.cx + Math.cos(t) * r * mass.rx
-      const y = mass.cy + Math.sin(t) * r * mass.ry
-      const pool = tones[mass.tone]
-      const pick = mass.tone === 'ground' ? Math.min(pool.length - 1, Math.floor(rand() * rand() * pool.length * 1.15)) : Math.floor(rand() * pool.length)
-      strokes.push({
-        x,
-        y,
-        angle: mass.angle + (rand() - 0.5) * mass.jitter,
-        len: mass.len[0] + rand() * (mass.len[1] - mass.len[0]),
-        w: mass.w[0] + rand() * (mass.w[1] - mass.w[0]),
-        color: pool[pick],
-        alpha:
-          mass.tone === 'ground'
-            ? 0.16 + rand() * 0.3
-            : mass.tone === 'lamp' || mass.tone === 'halo'
-              ? 0.55 + rand() * 0.45
-              : 0.3 + rand() * 0.5,
-        bend: (rand() - 0.5) * 0.5,
-      })
-    }
-  }
-  return strokes
+const INK = {
+  wall: '#241C14',
+  wallDeep: '#160F0A',
+  glow: '#6B4A2F',
+  glowHot: '#9A7038',
+  floor: '#140E09',
+  table: '#4A3722',
+  tableEdge: '#2A1E13',
+  cloth: '#5E4527',
+  figure: '#0E0A06',
+  figureLit: '#3A2A19',
+  lampShade: '#2E2317',
+  lampLight: '#F0D59A',
+  sage: '#556B4E',
+  bowl: '#7A5A33',
 }
 
 /**
- * Room 1's signature effect: a coarse dark painting that builds itself
- * stroke-by-stroke as the visitor reads past it, so the origin story and the
- * picture of where it started arrive at the same speed.
+ * The picture, as a list of marks laid down in the order a painter would lay
+ * them: the dark of the room, the light in it, the things the light falls on,
+ * then the light source, then the texture over all of it.
+ *
+ * Marks come in two kinds. `shape` marks are flat masses — a table, a shoulder,
+ * a lamp — and `stroke` marks are the brushwork over the top. Scattering
+ * strokes alone, which is what this used to do, never resolves into anything:
+ * you get a heap of sticks. Blocking in the masses first is both more legible
+ * and closer to how the painting would actually have been made.
+ *
+ * Coordinates are 0→1 on both axes so the composition survives any canvas size.
+ */
+function buildPicture() {
+  const rand = mulberry32(20260906)
+  const marks = []
+
+  const shape = (draw) => marks.push({ kind: 'shape', draw })
+  const poly = (points, fill, alpha = 1) =>
+    shape((ctx, W, H) => {
+      ctx.globalAlpha = alpha
+      ctx.fillStyle = fill
+      ctx.beginPath()
+      points.forEach(([x, y], i) =>
+        i ? ctx.lineTo(x * W, y * H) : ctx.moveTo(x * W, y * H)
+      )
+      ctx.closePath()
+      ctx.fill()
+      ctx.globalAlpha = 1
+    })
+  const ellipse = (cx, cy, rx, ry, fill, alpha = 1) =>
+    shape((ctx, W, H) => {
+      ctx.globalAlpha = alpha
+      ctx.fillStyle = fill
+      ctx.beginPath()
+      ctx.ellipse(cx * W, cy * H, rx * W, ry * H, 0, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.globalAlpha = 1
+    })
+
+  // 1. The room itself.
+  poly([[0, 0], [1, 0], [1, 1], [0, 1]], INK.wall)
+
+  // 2. The lamplight, before anything it falls on — the whole picture is built
+  //    around where this reaches.
+  shape((ctx, W, H) => {
+    const g = ctx.createRadialGradient(0.5 * W, 0.28 * H, 0, 0.5 * W, 0.28 * H, 0.52 * W)
+    g.addColorStop(0, 'rgba(154,112,56,0.75)')
+    g.addColorStop(0.45, 'rgba(107,74,47,0.34)')
+    g.addColorStop(1, 'rgba(36,28,20,0)')
+    ctx.fillStyle = g
+    ctx.fillRect(0, 0, W, H)
+  })
+
+  // 3. Floor, and the corners the light never gets to.
+  poly([[0, 0.84], [1, 0.84], [1, 1], [0, 1]], INK.floor)
+  shape((ctx, W, H) => {
+    const g = ctx.createRadialGradient(0.5 * W, 0.45 * H, 0.28 * W, 0.5 * W, 0.45 * H, 0.85 * W)
+    g.addColorStop(0, 'rgba(0,0,0,0)')
+    g.addColorStop(1, 'rgba(0,0,0,0.72)')
+    ctx.fillStyle = g
+    ctx.fillRect(0, 0, W, H)
+  })
+
+  // 4. The table, receding away from the viewer.
+  poly([[0.05, 0.80], [0.95, 0.80], [0.80, 0.685], [0.20, 0.685]], INK.table)
+  poly([[0.05, 0.80], [0.95, 0.80], [0.95, 0.875], [0.05, 0.875]], INK.tableEdge)
+  poly([[0.20, 0.685], [0.80, 0.685], [0.72, 0.655], [0.28, 0.655]], INK.cloth, 0.55)
+
+  // 5. Three figures round it. Bodies first, then heads, so a head sits on a
+  //    pair of shoulders rather than hovering over them.
+  const figure = (cx, cy, w, h, headR, tone) => {
+    poly(
+      [
+        [cx - w, cy + h],
+        [cx - w * 0.72, cy - h * 0.5],
+        [cx + w * 0.72, cy - h * 0.5],
+        [cx + w, cy + h],
+      ],
+      tone
+    )
+    ellipse(cx, cy - h * 0.62, headR, headR * 1.2, tone)
+  }
+  figure(0.215, 0.60, 0.115, 0.20, 0.055, INK.figure)
+  figure(0.785, 0.59, 0.112, 0.20, 0.053, INK.figure)
+  figure(0.5, 0.545, 0.086, 0.16, 0.043, '#181109')
+
+  // A rim of lamplight down the near edge of each figure.
+  shape((ctx, W, H) => {
+    ctx.strokeStyle = INK.figureLit
+    ctx.lineWidth = Math.min(W, H) * 0.012
+    ctx.lineCap = 'round'
+    ctx.globalAlpha = 0.75
+    ctx.beginPath()
+    ctx.moveTo(0.29 * W, 0.44 * H)
+    ctx.lineTo(0.315 * W, 0.62 * H)
+    ctx.moveTo(0.712 * W, 0.43 * H)
+    ctx.lineTo(0.688 * W, 0.61 * H)
+    ctx.stroke()
+    ctx.globalAlpha = 1
+  })
+
+  // 6. The lamp, hung over the middle of the table.
+  shape((ctx, W, H) => {
+    ctx.strokeStyle = INK.wallDeep
+    ctx.lineWidth = Math.min(W, H) * 0.008
+    ctx.beginPath()
+    ctx.moveTo(0.5 * W, 0)
+    ctx.lineTo(0.5 * W, 0.14 * H)
+    ctx.stroke()
+  })
+  poly([[0.415, 0.205], [0.585, 0.205], [0.545, 0.14], [0.455, 0.14]], INK.lampShade)
+  ellipse(0.5, 0.222, 0.028, 0.024, INK.lampLight)
+  ellipse(0.5, 0.222, 0.075, 0.062, INK.lampLight, 0.22)
+
+  // 7. What is on the table.
+  ellipse(0.5, 0.742, 0.088, 0.026, INK.bowl)
+  ellipse(0.5, 0.732, 0.088, 0.024, '#A07A46')
+  shape((ctx, W, H) => {
+    ctx.strokeStyle = '#C9B48A'
+    ctx.lineWidth = Math.min(W, H) * 0.007
+    ctx.lineCap = 'round'
+    ctx.globalAlpha = 0.4
+    for (let i = 0; i < 3; i++) {
+      const x = (0.46 + i * 0.04) * W
+      ctx.beginPath()
+      ctx.moveTo(x, 0.72 * H)
+      ctx.quadraticCurveTo(x + (i - 1) * 0.03 * W, 0.66 * H, x + (i - 1) * 0.05 * W, 0.6 * H)
+      ctx.stroke()
+    }
+    ctx.globalAlpha = 1
+  })
+
+  // ── 8. Brushwork over all of it ──────────────────────────────────────────
+  // Which mass a point belongs to decides its colour and the direction the
+  // brush was travelling, so the texture reinforces the forms instead of
+  // fighting them.
+  const regionAt = (x, y) => {
+    if (y > 0.875) return 'floor'
+    if (y > 0.655 && y < 0.875) return 'table'
+    if (Math.hypot((x - 0.5) * 1.4, y - 0.19) < 0.11) return 'lamp'
+    for (const [fx, fy] of [
+      [0.215, 0.58],
+      [0.785, 0.57],
+      [0.5, 0.52],
+    ]) {
+      if (Math.hypot((x - fx) * 1.6, y - fy) < 0.2) return 'figure'
+    }
+    if (Math.hypot((x - 0.5) * 1.2, y - 0.28) < 0.4) return 'glow'
+    return 'wall'
+  }
+
+  const TONES = {
+    wall: ['#2C2117', '#1A130D', INK.wall, INK.sage],
+    glow: [INK.glow, '#7E5A32', '#3A2C1C', INK.glowHot],
+    floor: ['#1B130C', '#0E0904', '#2A1E13'],
+    table: ['#5A4227', INK.table, '#332516', '#8A6636'],
+    figure: ['#0B0805', '#191108', '#2C2016'],
+    lamp: [INK.lampLight, '#D8B571', '#8A6636'],
+  }
+  const ANGLE = {
+    wall: 1.42,
+    glow: 0.2,
+    floor: 0.06,
+    table: 0.05,
+    figure: 1.5,
+    lamp: 0.9,
+  }
+
+  const strokes = []
+  for (let i = 0; i < 460; i++) {
+    const x = rand()
+    const y = rand()
+    const region = regionAt(x, y)
+    const pool = TONES[region]
+    strokes.push({
+      x,
+      y,
+      region,
+      angle: ANGLE[region] + (rand() - 0.5) * 0.75,
+      len: 0.02 + rand() * 0.055,
+      w: 5 + rand() * 13,
+      color: pool[Math.floor(rand() * rand() * pool.length)],
+      alpha: region === 'lamp' ? 0.4 + rand() * 0.5 : 0.14 + rand() * 0.32,
+      bend: (rand() - 0.5) * 0.6,
+    })
+  }
+  // Back to front, so the foreground texture lands last.
+  strokes.sort((a, b) => a.y - b.y)
+  for (const s of strokes) {
+    marks.push({
+      kind: 'stroke',
+      draw: (ctx, W, H) => {
+        const px = s.x * W
+        const py = s.y * H
+        const len = s.len * Math.min(W, H) * 2.2
+        const dx = Math.cos(s.angle) * len
+        const dy = Math.sin(s.angle) * len
+        const nx = -Math.sin(s.angle) * s.bend * len
+        const ny = Math.cos(s.angle) * s.bend * len
+        ctx.strokeStyle = s.color
+        ctx.globalAlpha = s.alpha
+        ctx.lineWidth = s.w * (Math.min(W, H) / 700)
+        ctx.lineCap = 'round'
+        ctx.beginPath()
+        ctx.moveTo(px - dx / 2, py - dy / 2)
+        ctx.quadraticCurveTo(px + nx, py + ny, px + dx / 2, py + dy / 2)
+        ctx.stroke()
+        ctx.globalAlpha = 1
+      },
+    })
+  }
+
+  return marks
+}
+
+/**
+ * Room 1's signature effect: a dark interior that paints itself as the visitor
+ * reads past it, so the origin story and the picture of where it started
+ * arrive at the same speed.
+ *
+ * Because the masses are laid in before the brushwork, the early part of the
+ * scroll blocks the room in and the rest of it finds the texture — which is the
+ * order a painting actually happens in, and reads far better than a picture
+ * that assembles itself out of unrelated dashes.
  *
  * In simple mode and under reduced motion the same picture is drawn once, in
- * full, on mount — the room is not allowed to withhold its content just because
- * somebody turned the animation off.
+ * full, on mount.
  */
 export default function SelfPaintingCanvas({ alt }) {
   const canvasRef = useRef(null)
@@ -105,37 +277,15 @@ export default function SelfPaintingCanvas({ alt }) {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const palette = ROOM_BY_ID.nuenen.palette
-    const strokes = buildStrokes(palette)
-
+    const marks = buildPicture()
     let width = 0
     let height = 0
     let drawn = 0
     let raf = 0
 
-    const paintOne = (s) => {
-      const x = s.x * width
-      const y = s.y * height
-      const len = s.len * Math.min(width, height) * 1.6
-      const dx = Math.cos(s.angle) * len
-      const dy = Math.sin(s.angle) * len
-      const nx = -Math.sin(s.angle) * s.bend * len
-      const ny = Math.cos(s.angle) * s.bend * len
-
-      ctx.strokeStyle = s.color
-      ctx.globalAlpha = s.alpha
-      ctx.lineWidth = s.w * (Math.min(width, height) / 700)
-      ctx.lineCap = 'round'
-      ctx.beginPath()
-      ctx.moveTo(x - dx / 2, y - dy / 2)
-      ctx.quadraticCurveTo(x + nx, y + ny, x + dx / 2, y + dy / 2)
-      ctx.stroke()
-      ctx.globalAlpha = 1
-    }
-
     const redrawTo = (count) => {
       ctx.clearRect(0, 0, width, height)
-      for (let i = 0; i < count; i++) paintOne(strokes[i])
+      for (let i = 0; i < count; i++) marks[i].draw(ctx, width, height)
       drawn = count
     }
 
@@ -147,7 +297,7 @@ export default function SelfPaintingCanvas({ alt }) {
       canvas.width = Math.max(1, Math.floor(width * dpr))
       canvas.height = Math.max(1, Math.floor(height * dpr))
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      redrawTo(still ? strokes.length : drawn)
+      redrawTo(still ? marks.length : drawn)
     }
 
     const ro = new ResizeObserver(resize)
@@ -155,7 +305,7 @@ export default function SelfPaintingCanvas({ alt }) {
     resize()
 
     if (still) {
-      redrawTo(strokes.length)
+      redrawTo(marks.length)
       return () => ro.disconnect()
     }
 
@@ -164,16 +314,16 @@ export default function SelfPaintingCanvas({ alt }) {
       // The picture finishes a little before the room does, so the last
       // paragraph is read against a completed canvas rather than a half-built one.
       const local = progressThroughRoom(ROOM_BY_ID.nuenen.index)
-      const eased = Math.min(1, Math.max(0, (local - 0.05) / 0.72))
-      const target = Math.round(eased * strokes.length)
+      const eased = Math.min(1, Math.max(0, (local - 0.04) / 0.7))
+      const target = Math.round(eased * marks.length)
 
       if (target > drawn) {
-        // Scrolling forward only ever adds strokes — no clear, no redraw.
-        const limit = Math.min(target, drawn + 40)
-        for (let i = drawn; i < limit; i++) paintOne(strokes[i])
+        // Scrolling forward only ever adds marks — no clear, no redraw.
+        const limit = Math.min(target, drawn + 30)
+        for (let i = drawn; i < limit; i++) marks[i].draw(ctx, width, height)
         drawn = limit
       } else if (target < drawn - 2) {
-        // Scrolling back has to repaint, because canvas strokes cannot be
+        // Scrolling back has to repaint, because canvas marks cannot be
         // un-drawn. Capped batches keep even a fast reverse scroll under budget.
         redrawTo(target)
       }

@@ -18,7 +18,7 @@
   border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  max-width: 26rem;
+  max-width: 30rem;
 }
 
 .stars__prompt {
@@ -32,8 +32,13 @@
 .stars__row {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-s);
   flex-wrap: wrap;
+}
+
+.stars__btn {
+  white-space: nowrap;
 }
 
 .stars__btn {

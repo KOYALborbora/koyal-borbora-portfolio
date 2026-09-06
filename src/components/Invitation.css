@@ -1,0 +1,71 @@
+.invite {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+  max-width: none;
+  font-size: var(--step--1);
+  font-style: italic;
+  line-height: 1.4;
+  color: color-mix(in srgb, var(--text) 88%, transparent);
+}
+
+.invite__mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.invite__dot {
+  position: absolute;
+  inset: 26%;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* The ring that says "here". It expands and fades on a slow cycle — fast
+   enough to catch the eye once, slow enough not to hold it. */
+.invite__pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  animation: invite-pulse 2.6s var(--ease-paint) infinite;
+}
+
+@keyframes invite-pulse {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Taken. Stop asking. */
+.invite.is-done {
+  color: var(--text-dim);
+}
+.invite.is-done .invite__pulse {
+  animation: none;
+  opacity: 0;
+}
+.invite.is-done .invite__dot {
+  background: color-mix(in srgb, var(--text) 45%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .invite__pulse {
+    animation: none;
+    opacity: 0.55;
+    transform: scale(1.1);
+  }
+}
